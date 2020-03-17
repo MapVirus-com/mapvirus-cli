@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# mapvirus-cli
+
+Frontend for MapVirus.com
 
 ## Available Scripts
 
