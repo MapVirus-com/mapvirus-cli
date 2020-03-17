@@ -1,26 +1,75 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from "react";
+import {Anchor, Box, Clock, Footer, Grommet, ResponsiveContext, Text} from 'grommet';
+import AppBar from "./components/AppBar";
+
 import './App.css';
+import BarContainer from "./components/BarContainer";
+import SidebarWrapper from "./components/SidebarWrapper";
+import MapWrapper from "./components/MapWrapper";
+import SearchBarWrapper from "./components/SearchBarWrapper";
+import CDCNotice from "./components/CDCNotice";
+import SocialShare from "./components/SocialShare";
+import {HashRouter} from "react-router-dom";
+
+const theme = {
+    global: {
+        font: {
+            family: 'Roboto',
+            size: '18px',
+            height: '20px',
+        }
+    },
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [showSidebar, setShowSidebar] = useState(false);
+    const [mapSelection, setMapSelection] = useState('');
+
+    return (
+        <HashRouter>
+            <Grommet theme={theme}>
+                <ResponsiveContext.Consumer>
+                    {size => (
+                        <Box direction='column' margin={{horizontal: 'large'}}>
+
+                            <AppBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} size={size}/>
+
+                            <BarContainer
+                                background='status-critical'
+                                margin={{bottom: 'medium'}}
+                            >
+                                <CDCNotice/>
+                            </BarContainer>
+
+                            <BarContainer wrap
+                                          background='dark-3'
+                                          margin={{bottom: 'medium'}}>
+                                <Clock type="digital"/>
+                                <Text>Confirmed</Text>
+                                <Text>Death</Text>
+                                <Text>Recovered</Text>
+                            </BarContainer>
+
+                            <Box wrap direction='row'
+                                 margin={{bottom: 'medium'}}>
+                                <SearchBarWrapper size={size}/>
+                                <MapWrapper mapSelection={mapSelection} setMapSelection={setMapSelection}
+                                            showSidebar={showSidebar} size={size}/>
+                                <SidebarWrapper showSidebar={showSidebar} setShowSidebar={setShowSidebar} size={size}/>
+                            </Box>
+
+                            <Footer margin={{bottom: 'large'}} background="brand" pad="medium" round='small'>
+                                <Text>Copyright MapVirus.com 2020</Text>
+                                <SocialShare/>
+                                <Anchor label="Disclaimer"/>
+                            </Footer>
+                        </Box>
+                    )}
+                </ResponsiveContext.Consumer>
+            </Grommet>
+        </HashRouter>
+    );
 }
 
 export default App;
