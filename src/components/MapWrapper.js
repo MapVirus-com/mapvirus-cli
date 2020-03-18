@@ -23,7 +23,8 @@ function MapWrapper(props) {
         >
             <Stack fill anchor='bottom-right'>
                 <AppMap mapSelection={props.mapSelection} setMapSelection={props.setMapSelection}
-                        setInfoBox={setInfoBox}/>
+                        setInfoBox={setInfoBox}
+                        countries={props.countries} setCountries={props.setCountries}/>
                 <Box width={getOverlaySize(props.size)}
                      height={getOverlaySize(props.size)}
                      margin={getOverlaySize(props.size)}
@@ -46,7 +47,9 @@ function MapWrapper(props) {
                 >
                     {infoBox.length > 0 && (
                         <>
-                            <Heading truncate size={getOverlaySize(props.size)} level={getOverlaySize(props.size) === 'small' ? 4 : 5} margin='none'>{infoBox[0]}</Heading>
+                            <Heading truncate size={getOverlaySize(props.size)}
+                                     level={getOverlaySize(props.size) === 'small' ? 4 : 5}
+                                     margin='none'>{infoBox[0]}</Heading>
                             <Text size={getOverlaySize(props.size)}>Confirmed {infoBox[1]}</Text>
                             <Text size={getOverlaySize(props.size)}>Deaths {infoBox[2]}</Text>
                             <Text size={getOverlaySize(props.size)}>Recovered {infoBox[3]}</Text>

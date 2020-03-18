@@ -1,4 +1,4 @@
-import {Box, Clock} from "grommet";
+import {Box} from "grommet";
 import React from "react";
 
 function BarContainer(props) {

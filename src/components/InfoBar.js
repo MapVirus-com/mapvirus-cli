@@ -1,10 +1,14 @@
-import React from "react";
-import {Anchor, Box, Button, Heading, MaskedInput, RoutedAnchor, Text} from "grommet";
-import {LinkPrevious, Location, MapLocation, Search} from "grommet-icons";
+import React, {useEffect} from "react";
+import {Box, Heading, RoutedAnchor} from "grommet";
+import {LinkPrevious} from "grommet-icons";
 import {useParams} from "react-router-dom";
 
 function InfoBar(props) {
     const {name} = useParams();
+
+    useEffect(() => {
+        props.setMapSelection(name);
+    }, [name]);
 
     return (
         <Box fill='horizontal' justify='end' pad='small' gap='small'>
