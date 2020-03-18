@@ -10,6 +10,7 @@ import SearchBarWrapper from "./components/SearchBarWrapper";
 import CDCNotice from "./components/CDCNotice";
 import SocialShare from "./components/SocialShare";
 import {HashRouter, Switch} from "react-router-dom";
+import Disclaimer from "./components/Disclaimer";
 
 const theme = {
     global: {
@@ -26,6 +27,7 @@ function App() {
     const [showSidebar, setShowSidebar] = useState(false);
     const [mapSelection, setMapSelection] = useState('');
     const [countries, setCountries] = useState([]);
+    const [overlay, setOverlay] = useState(null);
 
     return (
         <HashRouter>
@@ -33,44 +35,48 @@ function App() {
                 <Grommet theme={theme}>
                     <ResponsiveContext.Consumer>
                         {size => (
-                            <Box direction='column' margin={{horizontal: 'large'}}>
+                            <>
+                                <Box direction='column' margin={{horizontal: 'large'}}>
 
-                                <AppBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} size={size}/>
+                                    <AppBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} size={size}/>
 
-                                <BarContainer
-                                    background='status-critical'
-                                    margin={{bottom: 'medium'}}
-                                >
-                                    <CDCNotice/>
-                                </BarContainer>
+                                    <BarContainer
+                                        background='status-critical'
+                                        margin={{bottom: 'medium'}}
+                                    >
+                                        <CDCNotice/>
+                                    </BarContainer>
 
-                                <BarContainer wrap
-                                              background='dark-3'
-                                              margin={{bottom: 'medium'}}>
-                                    <Clock type="digital"/>
-                                    <Text>Confirmed</Text>
-                                    <Text>Death</Text>
-                                    <Text>Recovered</Text>
-                                </BarContainer>
+                                    {/*<BarContainer wrap*/}
+                                    {/*              background='dark-3'*/}
+                                    {/*              margin={{bottom: 'medium'}}>*/}
+                                    {/*    <Clock type="digital"/>*/}
+                                    {/*    <Text>Confirmed</Text>*/}
+                                    {/*    <Text>Death</Text>*/}
+                                    {/*    <Text>Recovered</Text>*/}
+                                    {/*</BarContainer>*/}
 
-                                <Box wrap direction='row'
-                                     margin={{bottom: 'medium'}}>
-                                    <SearchBarWrapper size={size}
-                                                      countries={countries} setCountries={setCountries}
-                                                      mapSelection={mapSelection} setMapSelection={setMapSelection}/>
-                                    <MapWrapper mapSelection={mapSelection} setMapSelection={setMapSelection}
-                                                showSidebar={showSidebar} size={size}
-                                                countries={countries} setCountries={setCountries}/>
-                                    <SidebarWrapper showSidebar={showSidebar} setShowSidebar={setShowSidebar}
-                                                    size={size}/>
+                                    <Box wrap direction='row'
+                                         margin={{bottom: 'medium'}}>
+                                        <SearchBarWrapper size={size}
+                                                          countries={countries} setCountries={setCountries}
+                                                          mapSelection={mapSelection}
+                                                          setMapSelection={setMapSelection}/>
+                                        <MapWrapper mapSelection={mapSelection} setMapSelection={setMapSelection}
+                                                    showSidebar={showSidebar} size={size}
+                                                    countries={countries} setCountries={setCountries}/>
+                                        <SidebarWrapper showSidebar={showSidebar} setShowSidebar={setShowSidebar}
+                                                        size={size}/>
+                                    </Box>
+
+                                    <Footer margin={{bottom: 'large'}} background="brand" pad="medium" round='small'>
+                                        <Text>Copyright MapVirus.com 2020</Text>
+                                        {/*<SocialShare/>*/}
+                                        <Anchor label="Disclaimer" onClick={() => setOverlay(<Disclaimer setOverlay={setOverlay}/>)}/>
+                                    </Footer>
                                 </Box>
-
-                                <Footer margin={{bottom: 'large'}} background="brand" pad="medium" round='small'>
-                                    <Text>Copyright MapVirus.com 2020</Text>
-                                    <SocialShare/>
-                                    <Anchor label="Disclaimer"/>
-                                </Footer>
-                            </Box>
+                                { overlay }
+                            </>
                         )}
                     </ResponsiveContext.Consumer>
                 </Grommet>

@@ -37,7 +37,7 @@ function AppBar(props) {
                         </Text>
                     )}
                 </Box>
-                <Box gridArea='right' align='end'>
+                <Box gridArea='right' align='end' style={{display: 'none'}}>
                     <Button icon={<Analytics/>} onClick={() => {
                         props.setShowSidebar(!props.showSidebar)
                     }}/>
