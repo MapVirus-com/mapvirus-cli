@@ -2,10 +2,12 @@ import React, {useEffect, useState} from "react";
 import {Anchor, Box, Button, Heading, MaskedInput} from "grommet";
 import {Location, MapLocation, Search} from "grommet-icons";
 import * as Fuse from "fuse.js";
+import {useHistory} from "react-router-dom";
 
 function SearchBar(props) {
     const [value, setValue] = useState("");
     const [options, setOptions] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         updateRegionOptions(value);
@@ -54,8 +56,10 @@ function SearchBar(props) {
                 value={value}
                 onChange={event => setValue(event.target.value)}/>
             <Box wrap direction='row' align='center' justify='between'>
-                <Button icon={<Location/>} label='Locate'/>
-                <Button icon={<Search/>} label='View' primary/>
+                {/*<Button icon={<Location/>} label='Locate'/>*/}
+                <Button icon={<Search/>} label='View' onClick={() => {
+                    history.push("/search/" + value.trim())
+                }} primary/>
             </Box>
         </Box>
     );
