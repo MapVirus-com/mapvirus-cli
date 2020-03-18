@@ -4,6 +4,7 @@ import {ComposableMap, Geographies, Geography, Graticule, ZoomableGroup} from "r
 import ReactTooltip from "react-tooltip";
 import Color from "color";
 import {useHistory} from 'react-router-dom';
+import {API_ROOT} from "./Constants";
 
 const geoUrl = "/world-110m.json";
 // const dataUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-15-2020.csv";
@@ -17,8 +18,7 @@ function Map(props) {
     const history = useHistory();
 
     useEffect(() => {
-        console.log("load");
-        fetch("http://localhost:7000/country", {
+        fetch(API_ROOT + "/country", {
             method: "GET",
             headers: {
                 "Accept": "application/json"
