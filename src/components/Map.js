@@ -89,7 +89,6 @@ function StyledComposableMap(props) {
 
 function Map(props) {
     const [tooltip, setTooltip] = useState('');
-    const [fullscreen, setFullScreen] = useState(false);
 
     useEffect(() => {
         fetch(API_ROOT + "/country", {
@@ -109,33 +108,7 @@ function Map(props) {
     return (
         <>
             {props.size !== 'small' && (<ReactTooltip>{tooltip}</ReactTooltip>)}
-            {!fullscreen ?
-                (
-                    <Stack fill anchor='top-right'>
-                        <StyledComposableMap setTooltip={setTooltip} {...props}/>
-                        <Box margin='small' style={{display: props.size === 'small' ? 'inherit' : 'none'}}>
-                            <Button label="Fullscreen" onClick={() => setFullScreen(true)}></Button>
-                        </Box>
-                    </Stack>
-                ) :
-                (
-                    <Layer full>
-                        <Box
-                            background='light-3'
-                            tag='header'
-                            justify='end'
-                            align='center'
-                            direction='row'
-                        >
-                            <Button
-                                icon={<FormClose/>}
-                                onClick={() => setFullScreen(false)}
-                            />
-                        </Box>
-                        <Box full><StyledComposableMap setTooltip={setTooltip} {...props}/></Box>
-                    </Layer>
-                )
-            }
+            <StyledComposableMap setTooltip={setTooltip} {...props}/>
         </>
     );
 }
