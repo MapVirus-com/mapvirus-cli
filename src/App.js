@@ -11,6 +11,7 @@ import CDCNotice from "./components/CDCNotice";
 import SocialShare from "./components/SocialShare";
 import {HashRouter, Switch} from "react-router-dom";
 import Disclaimer from "./components/Disclaimer";
+import {manipulateSizes} from "./Utils";
 
 const theme = {
     global: {
@@ -36,13 +37,13 @@ function App() {
                     <ResponsiveContext.Consumer>
                         {size => (
                             <>
-                                <Box direction='column' margin={{horizontal: 'large'}}>
+                                <Box direction='column' margin={{horizontal: manipulateSizes(size, 3)}}>
 
                                     <AppBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} size={size}/>
 
                                     <BarContainer
                                         background='status-critical'
-                                        margin={{bottom: 'medium'}}
+                                        margin={{bottom: size === 'small' ? 'small' : 'medium'}}
                                     >
                                         <CDCNotice/>
                                     </BarContainer>
@@ -57,7 +58,7 @@ function App() {
                                     {/*</BarContainer>*/}
 
                                     <Box wrap direction='row'
-                                         margin={{bottom: 'medium'}}>
+                                         margin={{bottom: size === 'small' ? 'small' : 'medium'}}>
                                         <SearchBarWrapper size={size}
                                                           countries={countries} setCountries={setCountries}
                                                           mapSelection={mapSelection}
@@ -69,7 +70,7 @@ function App() {
                                                         size={size}/>
                                     </Box>
 
-                                    <Footer margin={{bottom: 'large'}} background="brand" pad="medium" round='small'>
+                                    <Footer margin={{bottom: size === 'small' ? 'small' : 'medium'}} background="brand" pad="medium" round='small'>
                                         <Text>Copyright MapVirus.com 2020</Text>
                                         {/*<SocialShare/>*/}
                                         <Anchor label="Disclaimer" onClick={() => setOverlay(<Disclaimer setOverlay={setOverlay}/>)}/>

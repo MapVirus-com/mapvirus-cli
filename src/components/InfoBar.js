@@ -13,7 +13,7 @@ function InfoBar(props) {
     return (
         <Box fill='horizontal' justify='end' pad='small' gap='small'>
             <Box wrap direction='row' align='center' justify='between'>
-                <RoutedAnchor path='/#/' label={<Heading margin='none' level='3'>Back</Heading>} icon={<LinkPrevious/>}/>
+                <RoutedAnchor path='/#/' label={<Heading margin='none' level='3' onClick={() => props.setMapSelection(null)}>Back</Heading>} icon={<LinkPrevious/>}/>
                 <Heading margin='none' level='3'>{ name }</Heading>
             </Box>
         </Box>

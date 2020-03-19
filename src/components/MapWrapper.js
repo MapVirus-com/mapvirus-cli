@@ -23,40 +23,39 @@ function MapWrapper(props) {
         >
             <Stack fill anchor='bottom-right'>
                 <AppMap mapSelection={props.mapSelection} setMapSelection={props.setMapSelection}
-                        setInfoBox={setInfoBox}
+                        setInfoBox={setInfoBox} size={props.size}
                         countries={props.countries} setCountries={props.setCountries}/>
-                <Box width={getOverlaySize(props.size)}
-                     height={getOverlaySize(props.size)}
-                     margin={getOverlaySize(props.size)}
-                     pad={getOverlaySize(props.size)}
-                     round={getOverlaySize(props.size)}
-                     background='light-5'
-                     border={{
-                         color: 'brand',
-                         size: getOverlaySize(props.size),
-                         style: 'dashed'
-                     }}
-                     style={{
-                         opacity: 0.5
-                     }}
-                     align='start'
-                     justify='start'
-                     direction='column'
-                     overflow='hidden'
-                     wrap
-                >
-                    {infoBox.length > 0 && (
-                        <>
-                            <Heading truncate size={getOverlaySize(props.size)}
-                                     level={getOverlaySize(props.size) === 'small' ? 4 : 5}
-                                     margin='none'>{infoBox[0]}</Heading>
-                            <Text size={getOverlaySize(props.size)}>Confirmed {infoBox[1]}</Text>
-                            <Text size={getOverlaySize(props.size)}>Deaths {infoBox[2]}</Text>
-                            <Text size={getOverlaySize(props.size)}>Recovered {infoBox[3]}</Text>
-                        </>
-                    )
-                    }
-                </Box>
+
+                {infoBox.length > 0 && (
+                    <Box width={getOverlaySize(props.size)}
+                         height={getOverlaySize(props.size)}
+                         margin={getOverlaySize(props.size)}
+                         pad={getOverlaySize(props.size)}
+                         round={getOverlaySize(props.size)}
+                         background='light-5'
+                         border={{
+                             color: 'brand',
+                             size: getOverlaySize(props.size),
+                             style: 'dashed'
+                         }}
+                         style={{
+                             opacity: 0.5
+                         }}
+                         align='start'
+                         justify='start'
+                         direction='column'
+                         overflow='hidden'
+                         wrap
+                    >
+                        <Heading truncate size={getOverlaySize(props.size)}
+                                 level={getOverlaySize(props.size) === 'small' ? 4 : 5}
+                                 margin='none'>{infoBox[0]}</Heading>
+                        <Text size={getOverlaySize(props.size)}>Confirmed {infoBox[1]}</Text>
+                        <Text size={getOverlaySize(props.size)}>Deaths {infoBox[2]}</Text>
+                        <Text size={getOverlaySize(props.size)}>Recovered {infoBox[3]}</Text>
+                    </Box>
+                )
+                }
             </Stack>
         </Box>
     );

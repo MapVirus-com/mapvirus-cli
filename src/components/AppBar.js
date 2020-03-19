@@ -1,6 +1,7 @@
 import {Anchor, Box, Button, Grid, Heading, Text} from "grommet";
 import React from "react";
 import {Analytics, Map} from "grommet-icons";
+import {manipulateSizes} from "../Utils";
 
 function AppBar(props) {
     return (
@@ -9,7 +10,7 @@ function AppBar(props) {
             direction='row'
             align='center'
             justify='between'
-            margin={{top: 'large', bottom: 'medium'}}
+            margin={{top: manipulateSizes(props.size, 3), bottom: props.size === 'small' ? 'small' : 'medium'}}
             pad='small'
             elevation='large'
             border={{

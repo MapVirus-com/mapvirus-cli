@@ -5,6 +5,9 @@ import ReactTooltip from "react-tooltip";
 import Color from "color";
 import {useHistory} from 'react-router-dom';
 import {API_ROOT} from "./Constants";
+import {Box, Button, Layer, Stack} from "grommet";
+import {FormClose} from "grommet-icons";
+import {PatternLines} from "@vx/pattern";
 
 const geoUrl = "/world-110m.json";
 // const dataUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-15-2020.csv";
@@ -13,32 +16,25 @@ const colorScale = scaleLinear()
     .domain([0, 10000])
     .range(["#ffedea", "#ff5233"]);
 
-function Map(props) {
-    const [tooltip, setTooltip] = useState('');
+function StyledComposableMap(props) {
+
     const history = useHistory();
 
-    useEffect(() => {
-        fetch(API_ROOT + "/country", {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        })
-            .then(res => res.json())
-            .then((json) => {
-                props.setCountries(json.countries);
-            }, (error) => {
-                console.log(error);
-            });
-    }, []);
-
     return (
-        <>
-            <ReactTooltip>{tooltip}</ReactTooltip>
-            <ComposableMap data-tip="" data-html="true" projection='geoMercator'>
-                <ZoomableGroup zoom={1}>
-                    <Graticule stroke="#ffedea"/>
-                    {props.countries.length > 0 && (
+        <ComposableMap data-tip="" data-html="true" projection='geoMercator'>
+            <PatternLines
+                id="lines"
+                height={6}
+                width={6}
+                stroke="#776865"
+                strokeWidth={1}
+                background="#F6F0E9"
+                orientation={["diagonal"]}
+            />
+            <ZoomableGroup zoom={1}>
+                <Graticule stroke="#ffedea"/>
+                {props.countries.length > 0 && (
+                    <>
                         <Geographies geography={geoUrl}>
                             {({geographies}) =>
                                 geographies.map(geo => {
@@ -52,15 +48,16 @@ function Map(props) {
                                         <Geography
                                             key={geo.rsmKey}
                                             geography={geo}
-                                            fill={d ? colorScale(confirmed) : "#F5F4F6"}
-                                            stroke={ props.mapSelection === NAME ? "#3D138D" : "#D6D6DA"}
+                                            fill={props.mapSelection === NAME ? "url('#lines')" : (d ? colorScale(confirmed) : "#F5F4F6")}
+                                            stroke={"#D6D6DA"}
                                             strokeWidth={props.mapSelection === NAME ? 2 : 1}
                                             onMouseEnter={() => {
-                                                setTooltip(`${NAME}<br/>Confirmed ${confirmed}<br/>Deaths ${deaths}<br/>Recovered ${recovered}`);
+                                                props.setTooltip(`${NAME}<br/>Confirmed ${confirmed}<br/>Deaths ${deaths}<br/>Recovered ${recovered}`);
                                                 props.setInfoBox([NAME, confirmed, deaths, recovered]);
                                             }}
                                             onMouseLeave={() => {
-                                                setTooltip("");
+                                                props.setTooltip("");
+                                                props.setInfoBox([]);
                                             }}
                                             onClick={() => {
                                                 history.push("/search/" + NAME);
@@ -83,9 +80,62 @@ function Map(props) {
                                 })
                             }
                         </Geographies>
-                    )}
-                </ZoomableGroup>
-            </ComposableMap>
+                    </>
+                )}
+            </ZoomableGroup>
+        </ComposableMap>
+    );
+}
+
+function Map(props) {
+    const [tooltip, setTooltip] = useState('');
+    const [fullscreen, setFullScreen] = useState(false);
+
+    useEffect(() => {
+        fetch(API_ROOT + "/country", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then((json) => {
+                props.setCountries(json.countries);
+            }, (error) => {
+                console.log(error);
+            });
+    }, []);
+
+    return (
+        <>
+            {props.size !== 'small' && (<ReactTooltip>{tooltip}</ReactTooltip>)}
+            {!fullscreen ?
+                (
+                    <Stack fill anchor='top-right'>
+                        <StyledComposableMap setTooltip={setTooltip} {...props}/>
+                        <Box margin='small' style={{display: props.size === 'small' ? 'inherit' : 'none'}}>
+                            <Button label="Fullscreen" onClick={() => setFullScreen(true)}></Button>
+                        </Box>
+                    </Stack>
+                ) :
+                (
+                    <Layer full>
+                        <Box
+                            background='light-3'
+                            tag='header'
+                            justify='end'
+                            align='center'
+                            direction='row'
+                        >
+                            <Button
+                                icon={<FormClose/>}
+                                onClick={() => setFullScreen(false)}
+                            />
+                        </Box>
+                        <Box full><StyledComposableMap setTooltip={setTooltip} {...props}/></Box>
+                    </Layer>
+                )
+            }
         </>
     );
 }
