@@ -1,4 +1,4 @@
-import {Anchor, Box, Button, Grid, Heading, Text} from "grommet";
+import {Anchor, Box, Button, Grid, Heading, Nav, Text} from "grommet";
 import React from "react";
 import {Analytics, Map} from "grommet-icons";
 import {manipulateSizes} from "../Utils";
@@ -25,24 +25,32 @@ function AppBar(props) {
                       {name: 'center', start: [1, 0], end: [1, 0]},
                       {name: 'right', start: [2, 0], end: [2, 0]}
                   ]}
-                  columns={['flex', 'small', ['xsmall', 'small']]}
+                  columns={['flex', 'flex', 'xsmall']}
                   rows={['fill']}
                   align='center'
                   gap='small'>
-                <Box gridArea='left' justify='end' direction='column' margin={{left: 'small'}}>
-                    <Anchor href='#' icon={<Map/>}
-                            label={<Heading level='3' margin='none'>MapVirus</Heading>}/>
-                    {props.size !== 'small' && (
-                        <Text color='dark-5' margin='none'>
-                            Comprehensive maps and information on Novel Coronavirus
-                        </Text>
-                    )}
+                <Box gridArea='left' direction='row' align='center' justify='start' gap='medium'
+                     margin={{left: 'small'}}>
+                    <Box justify='end' direction='column'>
+                        <Anchor href='#' icon={<Map/>}
+                                label={<Heading level='3' margin='none'>MapVirus</Heading>}/>
+                        {props.size !== 'small' && (
+                            <Text color='dark-5' margin='none'>
+                                Comprehensive maps and information on Novel Coronavirus
+                            </Text>
+                        )}
+                    </Box>
+                    {/*<Nav>*/}
+                    {/*    <Anchor label='Prevention'/>*/}
+                    {/*</Nav>*/}
                 </Box>
-                <Box gridArea='right' align='end' style={{display: 'none'}}>
-                    <Button icon={<Analytics/>} onClick={() => {
-                        props.setShowSidebar(!props.showSidebar)
-                    }}/>
-                </Box>
+                {props.setShowSidebar && (
+                    <Box gridArea='right' align='end'>
+                        <Button icon={<Analytics/>} onClick={() => {
+                            props.setShowSidebar(!props.showSidebar)
+                        }}/>
+                    </Box>
+                )}
             </Grid>
         </Box>
     );

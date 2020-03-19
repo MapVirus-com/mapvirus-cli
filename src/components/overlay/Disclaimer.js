@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, Button, Heading, Layer, Markdown, Text} from "grommet";
+import {Box, Button, Heading, Layer, Text} from "grommet";
 import {FormClose} from "grommet-icons";
 
 function Disclaimer(props) {

@@ -1,0 +1,21 @@
+import React from "react";
+import {Box, Button, Heading} from "grommet";
+import {useHistory} from 'react-router-dom';
+
+export default function NotFound(props) {
+
+    const history = useHistory();
+
+    return (
+        <Box style={{
+            position: 'absolute', left: '50%', top: '50%',
+            transform: 'translate(-50%, -50%)'
+        }} align='center' justify='center'>
+            <Box align='center' gap='small'>
+                <Heading level='2' color='brand'>404 Not Found</Heading>
+                <Button label='Homepage' onClick={() => history.push('/')}/>
+            </Box>
+        </Box>
+    );
+
+}

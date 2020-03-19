@@ -1,7 +1,7 @@
 import SearchBar from "./SearchBar";
 import {Box} from "grommet";
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import {Route} from "react-router-dom";
 import InfoBar from "./InfoBar";
 
 function SearchBarWrapper(props) {

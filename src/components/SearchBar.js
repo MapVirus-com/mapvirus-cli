@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Anchor, Box, Button, Heading, MaskedInput} from "grommet";
-import {Location, MapLocation, Search} from "grommet-icons";
+import {MapLocation, Search} from "grommet-icons";
 import * as Fuse from "fuse.js";
 import {useHistory} from "react-router-dom";
 import ReactGA from 'react-ga';

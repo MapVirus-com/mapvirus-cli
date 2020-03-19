@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
-import {Box, Heading, RoutedAnchor, Text} from "grommet";
+import {Anchor, Box, Heading} from "grommet";
 import {Emergency, FingerPrint, LinkPrevious, Validate} from "grommet-icons";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 
 function InfoBar(props) {
     const {name} = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         props.setMapSelection(name);
@@ -22,9 +23,10 @@ function InfoBar(props) {
     return (
         <Box fill='horizontal' justify='end' pad='small' gap='small'>
             <Box wrap direction='row' align='center' justify='between'>
-                <RoutedAnchor path='/#/' label={<Heading margin='none' level='3'
-                                                         onClick={() => props.setMapSelection(null)}>Back</Heading>}
-                              icon={<LinkPrevious/>}/>
+                <Anchor label={<Heading margin='none' level='3' onClick={() => {
+                    props.setMapSelection(null);
+                    history.push('/');
+                }}>Back</Heading>} icon={<LinkPrevious/>}/>
                 <Heading margin='none' level='3'>{name}</Heading>
             </Box>
             <Box direction='row' gap='xsmall' align='center' justify='start' margin={{top: 'small'}}>
