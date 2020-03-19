@@ -3,11 +3,19 @@ import {Anchor, Box, Button, Heading, MaskedInput} from "grommet";
 import {Location, MapLocation, Search} from "grommet-icons";
 import * as Fuse from "fuse.js";
 import {useHistory} from "react-router-dom";
+import ReactGA from 'react-ga';
 
 function SearchBar(props) {
     const [value, setValue] = useState("");
     const [options, setOptions] = useState([]);
     const history = useHistory();
+
+    if (process.env.REACT_APP_GA_TRACKING_ID) {
+        history.listen(location => {
+            ReactGA.set({ page: location.pathname });
+            ReactGA.pageview(location.pathname);
+        });
+    }
 
     useEffect(() => {
         updateRegionOptions(value);
@@ -58,7 +66,9 @@ function SearchBar(props) {
             <Box wrap direction='row' align='center' justify='between'>
                 {/*<Button icon={<Location/>} label='Locate'/>*/}
                 <Button icon={<Search/>} label='View' onClick={() => {
-                    history.push("/search/" + value.trim())
+                    if (value && value.trim() !== '') {
+                        history.push("/search/" + value.trim());
+                    }
                 }} primary/>
             </Box>
         </Box>

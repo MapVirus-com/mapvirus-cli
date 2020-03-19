@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import {Anchor, Box, Clock, Footer, Grommet, ResponsiveContext, Text} from 'grommet';
-import AppBar from "./components/AppBar";
+import React, {useEffect, useState} from "react";
+import {Anchor, Box, Footer, Grommet, ResponsiveContext, Text} from 'grommet';
+import ReactGA from 'react-ga';
 
 import './App.css';
+import AppBar from "./components/AppBar";
 import BarContainer from "./components/BarContainer";
 import SidebarWrapper from "./components/SidebarWrapper";
 import MapWrapper from "./components/MapWrapper";
 import SearchBarWrapper from "./components/SearchBarWrapper";
 import CDCNotice from "./components/CDCNotice";
-import SocialShare from "./components/SocialShare";
 import {HashRouter, Switch} from "react-router-dom";
 import Disclaimer from "./components/Disclaimer";
 import {manipulateSizes} from "./Utils";
@@ -29,6 +29,16 @@ function App() {
     const [mapSelection, setMapSelection] = useState('');
     const [countries, setCountries] = useState([]);
     const [overlay, setOverlay] = useState(null);
+
+    function setUpReactGA() {
+        ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+    }
+
+    useEffect(() => {
+        if (process.env.REACT_APP_GA_TRACKING_ID) {
+            setUpReactGA();
+        }
+    }, []);
 
     return (
         <HashRouter>
@@ -73,7 +83,15 @@ function App() {
                                     <Footer margin={{bottom: 'medium'}} background="brand" pad="medium" round='small'>
                                         <Text>Copyright MapVirus.com 2020</Text>
                                         {/*<SocialShare/>*/}
-                                        <Anchor label="Disclaimer" onClick={() => setOverlay(<Disclaimer setOverlay={setOverlay}/>)}/>
+                                        <Anchor label="Disclaimer" onClick={() => {
+                                            if (process.env.REACT_APP_GA_TRACKING_ID) {
+                                                ReactGA.event({
+                                                    category: "click",
+                                                    action: "disclaimer",
+                                                });
+                                            }
+                                            setOverlay(<Disclaimer setOverlay={setOverlay}/>);
+                                        }}/>
                                     </Footer>
                                 </Box>
                                 { overlay }

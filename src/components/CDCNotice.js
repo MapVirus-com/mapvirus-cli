@@ -5,7 +5,7 @@ import {Aid} from "grommet-icons";
 function CDCNotice(props) {
     return (
         <Box fill wrap direction='row' justify='between' align='center' gap='small' margin='small'>
-            <Box direction='row' gap='small' fill={{horizontal: props.size === 'small'}}>
+            <Box direction='row' gap='small' fill={props.size === 'small' && {horizontal: 'true'}}>
                 <Aid/>
                 <Text >Please refer to local CDC website for guidelines and instructions.</Text>
             </Box>
