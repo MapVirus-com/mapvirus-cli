@@ -5,9 +5,8 @@ import ReactTooltip from "react-tooltip";
 import Color from "color";
 import {useHistory} from 'react-router-dom';
 import {API_ROOT} from "./Constants";
-import {Box, Button, Layer, Stack} from "grommet";
-import {FormClose} from "grommet-icons";
 import {PatternLines} from "@vx/pattern";
+import {isBrowser} from "react-device-detect";
 
 const geoUrl = "/world-110m.json";
 // const dataUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-15-2020.csv";
@@ -39,12 +38,11 @@ function StyledComposableMap(props) {
                             {({geographies}) =>
                                 geographies.map(geo => {
                                     const d = props.countries.find(s => s["country_iso_a3"] === geo.properties.ISO_A3);
-                                    const data_country_name = d == null ? "" : d['country_name'];
                                     const confirmed = d == null ? 0 : d['stats']["confirmed"];
                                     const deaths = d == null ? 0 : d['stats']["deaths"];
                                     const recovered = d == null ? 0 : d['stats']["recovered"];
                                     const {NAME} = geo.properties;
-                                    return (
+                                    return isBrowser ? (
                                         <Geography
                                             key={geo.rsmKey}
                                             geography={geo}
@@ -75,8 +73,19 @@ function StyledComposableMap(props) {
                                                     outline: "none"
                                                 }
                                             }}
-                                        />
-                                    );
+                                        />) : (
+                                        <Geography
+                                            key={geo.rsmKey}
+                                            geography={geo}
+                                            fill={props.mapSelection === NAME ? "url('#lines')" : (d ? colorScale(confirmed) : "#F5F4F6")}
+                                            stroke={"#D6D6DA"}
+                                            strokeWidth={props.mapSelection === NAME ? 2 : 1}
+                                            style={{
+                                                default: {
+                                                    outline: "none"
+                                                }
+                                            }}
+                                        />);
                                 })
                             }
                         </Geographies>

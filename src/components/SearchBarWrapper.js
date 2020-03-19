@@ -12,7 +12,7 @@ function SearchBarWrapper(props) {
             border={{size: 'medium', color: 'neutral-4', style: 'groove'}}
             elevation='small'
             round='small'
-            margin={props.size !== 'large' ? {bottom: 'small'} : {right: 'small'}}
+            margin={props.size !== 'large' ? {bottom: 'medium'} : {right: 'medium'}}
             pad='xsmall'
             width='medium'>
             <Route exact path='/'>

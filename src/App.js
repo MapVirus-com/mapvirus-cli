@@ -43,7 +43,7 @@ function App() {
 
                                     <BarContainer
                                         background='status-critical'
-                                        margin={{bottom: size === 'small' ? 'small' : 'medium'}}
+                                        margin={{bottom: 'medium'}}
                                     >
                                         <CDCNotice/>
                                     </BarContainer>
@@ -58,7 +58,7 @@ function App() {
                                     {/*</BarContainer>*/}
 
                                     <Box wrap direction='row'
-                                         margin={{bottom: size === 'small' ? 'small' : 'medium'}}>
+                                         margin={{bottom: 'medium'}}>
                                         <SearchBarWrapper size={size}
                                                           countries={countries} setCountries={setCountries}
                                                           mapSelection={mapSelection}
@@ -70,7 +70,7 @@ function App() {
                                                         size={size}/>
                                     </Box>
 
-                                    <Footer margin={{bottom: size === 'small' ? 'small' : 'medium'}} background="brand" pad="medium" round='small'>
+                                    <Footer margin={{bottom: 'medium'}} background="brand" pad="medium" round='small'>
                                         <Text>Copyright MapVirus.com 2020</Text>
                                         {/*<SocialShare/>*/}
                                         <Anchor label="Disclaimer" onClick={() => setOverlay(<Disclaimer setOverlay={setOverlay}/>)}/>

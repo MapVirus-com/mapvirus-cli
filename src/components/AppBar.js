@@ -10,7 +10,7 @@ function AppBar(props) {
             direction='row'
             align='center'
             justify='between'
-            margin={{top: manipulateSizes(props.size, 3), bottom: props.size === 'small' ? 'small' : 'medium'}}
+            margin={{top: manipulateSizes(props.size, 3), bottom: 'medium'}}
             pad='small'
             elevation='large'
             border={{

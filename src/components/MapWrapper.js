@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import {FormClose} from "grommet-icons";
 
 function getOverlaySize(size) {
-    return size === 'small' ? 'small' : 'medium';
+    return size === 'small' ? 'xsmall' : 'small';
 }
 
 function MapWrapper(props) {
