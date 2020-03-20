@@ -2,8 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Grommet, ResponsiveContext} from 'grommet';
 import ReactGA from 'react-ga';
 
-import './App.css';
-import {HashRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, Switch} from "react-router-dom";
 import {manipulateSizes} from "./Utils";
 import MainScreen from "./pages/MainScreen";
 import NotFound from "./components/NotFound";
@@ -35,7 +34,7 @@ function App() {
     }, []);
 
     return (
-        <HashRouter>
+        <BrowserRouter>
             <Grommet theme={theme}>
                 <ResponsiveContext.Consumer>
                     {size => (
@@ -55,7 +54,7 @@ function App() {
                     )}
                 </ResponsiveContext.Consumer>
             </Grommet>
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 

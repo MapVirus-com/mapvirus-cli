@@ -1,7 +1,9 @@
-require('babel-register');
+require("babel-register")({
+    presets: ["es2015", "react"]
+});
 
 const router = require('./sitemap').default;
-const Sitemap = require('../').default;
+const Sitemap = require('react-router-sitemap').default;
 
 const filterConfig = {
     isValid: false,
@@ -12,7 +14,7 @@ const filterConfig = {
 
 const paramsConfig = {
     '/search/:name': [
-        { projectName: ['United States', 'Italy', 'Spain', 'Iran', 'United Kingdom', 'France'] },
+        { name: ['United States', 'Italy', 'Spain', 'Iran', 'United Kingdom', 'France'] },
     ]
 };
 

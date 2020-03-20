@@ -27,7 +27,7 @@ function AppBar(props) {
                 <Box gridArea='left' direction='row' align='center' justify='start' gap='medium'
                      margin={{left: 'small'}}>
                     <Box justify='end' direction='column'>
-                        <Anchor color='status-critical' href='#' icon={<Map/>}
+                        <Anchor color='status-critical' onClick={() => history.push('/')} icon={<Map/>}
                                 label={<Heading level='3' margin='none'>MapVirus</Heading>}/>
                         {props.size !== 'small' && (
                             <Text color='dark-5' margin='none'>

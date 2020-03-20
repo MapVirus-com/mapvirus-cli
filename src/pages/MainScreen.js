@@ -28,7 +28,7 @@ export default function MainScreen(props) {
                       content="Tracking the Coronavirus Outbreak with Numbers: Realtime maps and information on the development of Novel Coronavirus (COVID-19)."/>
 
                 <meta property="og:type" content="website"/>
-                <meta property="og:url" content="https://mapvirus.com/#/"/>
+                <meta property="og:url" content="https://mapvirus.com/"/>
                 <meta name="og:title" property="og:title"
                       content="MapVirus - Realtime Maps and Information on Coronavirus (COVID-19)"/>
                 <meta name="og:description" property="og:description"
