@@ -1,6 +1,8 @@
 import React from "react";
-import {Box, Button, Heading} from "grommet";
+import {Box, Button, Heading, Text} from "grommet";
 import {useHistory} from 'react-router-dom';
+import CDCNotice from "./CDCNotice";
+import BarContainer from "./BarContainer";
 
 export default function NotFound(props) {
 
@@ -15,6 +17,15 @@ export default function NotFound(props) {
                 <Heading level='2' color='brand'>404 Not Found</Heading>
                 <Button label='Homepage' onClick={() => history.push('/')}/>
             </Box>
+            <BarContainer
+                background='status-critical'
+                margin={{bottom: 'medium'}}
+            >
+                <CDCNotice/>
+            </BarContainer>
+            <BarContainer margin={{bottom: 'medium'}}>
+                <Text>Test</Text>
+            </BarContainer>
         </Box>
     );
 

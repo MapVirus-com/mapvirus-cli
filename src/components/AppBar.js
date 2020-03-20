@@ -2,8 +2,12 @@ import {Anchor, Box, Button, Grid, Heading, Nav, Text} from "grommet";
 import React from "react";
 import {Analytics, Map} from "grommet-icons";
 import {manipulateSizes} from "../Utils";
+import {useHistory} from 'react-router-dom';
 
 function AppBar(props) {
+
+    const history = useHistory();
+
     return (
         <Box
             tag='header'
@@ -40,9 +44,9 @@ function AppBar(props) {
                             </Text>
                         )}
                     </Box>
-                    {/*<Nav>*/}
-                    {/*    <Anchor label='Prevention'/>*/}
-                    {/*</Nav>*/}
+                    <Nav>
+                        <Anchor label='Prevention' onClick={() => {history.push('/prevention')}}/>
+                    </Nav>
                 </Box>
                 {props.setShowSidebar && (
                     <Box gridArea='right' align='end'>

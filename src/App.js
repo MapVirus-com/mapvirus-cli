@@ -1,12 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Grommet, ResponsiveContext} from 'grommet';
 import ReactGA from 'react-ga';
 
 import './App.css';
 import {HashRouter, Route, Switch} from "react-router-dom";
 import {manipulateSizes} from "./Utils";
-import MainScreen from "./components/MainScreen";
+import MainScreen from "./pages/MainScreen";
 import NotFound from "./components/NotFound";
+import Prevention from "./pages/Prevention";
 
 const theme = {
     global: {
@@ -19,6 +20,8 @@ const theme = {
 };
 
 function App() {
+
+    const [overlay, setOverlay] = useState(null);
 
     function setUpReactGA() {
         ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
@@ -39,7 +42,10 @@ function App() {
                         <Box full direction='column' margin={{horizontal: manipulateSizes(size, 3)}}>
                             <Switch>
                                 <Route exact path={['/', '/search/:name']}>
-                                    <MainScreen size={size}/>
+                                    <MainScreen size={size} overlay={overlay} setOverlay={setOverlay}/>
+                                </Route>
+                                <Route path='/prevention'>
+                                    <Prevention size={size} overlay={overlay} setOverlay={setOverlay}/>
                                 </Route>
                                 <Route path='*'>
                                     <NotFound/>
