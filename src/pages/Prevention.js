@@ -15,10 +15,12 @@ import Warning from '../images/virus_warning.svg';
 
 export default function Prevention(props) {
 
+    const size = props.size;
+
     function Row(props) {
         return (
-            <Box direction='row' align='center' gap='large' width='large'>
-                <Box width='medium' height='medium'>
+            <Box direction={size === 'small' ? 'column' : 'row'} align='center' gap='large' width='large'>
+                <Box width={size === 'small' ? 'small' : 'medium'}  height={size === 'small' ? 'small' : 'medium'}>
                     <Image fit='contain' src={props.icon}/>
                 </Box>
                 <Box gap='small' width='large'>

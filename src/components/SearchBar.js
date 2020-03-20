@@ -53,7 +53,7 @@ function SearchBar(props) {
 
     return (
         <Box fill='horizontal' justify='end' pad='small' gap='medium'>
-            <Anchor label={<Heading margin='none' level='3'>Search</Heading>} icon={<MapLocation/>} href='/'/>
+            <Anchor label={<Heading margin='none' level='3'>Search</Heading>} icon={<MapLocation/>} onClick={() => history.push('/')}/>
             <Box gap='small'>
                 <MaskedInput
                     mask={[
