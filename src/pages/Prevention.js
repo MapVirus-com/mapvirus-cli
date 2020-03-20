@@ -3,9 +3,9 @@ import {Helmet} from "react-helmet";
 import CDCNotice from "../components/CDCNotice";
 import BarContainer from "../components/BarContainer";
 import AppBar from "../components/AppBar";
-import {Anchor, Box, Heading, Image, Markdown, Text} from "grommet";
+import {Anchor, Box, Heading, Image, Text} from "grommet";
 import AppFooter from "../components/AppFooter";
-import {Halt, MapLocation} from "grommet-icons";
+import {Halt} from "grommet-icons";
 
 import WashingHands from '../images/washing_hands.svg';
 import Fever from '../images/fever.svg';

@@ -1,4 +1,4 @@
-import {Anchor, Box, Button, Grid, Heading, Nav, Text} from "grommet";
+import {Anchor, Box, Button, Heading, Nav, Text} from "grommet";
 import React from "react";
 import {Analytics, Map} from "grommet-icons";
 import {manipulateSizes} from "../Utils";
@@ -23,20 +23,11 @@ function AppBar(props) {
             }}
             round='small'
         >
-            <Grid fill
-                  areas={[
-                      {name: 'left', start: [0, 0], end: [0, 0]},
-                      {name: 'center', start: [1, 0], end: [1, 0]},
-                      {name: 'right', start: [2, 0], end: [2, 0]}
-                  ]}
-                  columns={['flex', 'flex', 'xsmall']}
-                  rows={['fill']}
-                  align='center'
-                  gap='small'>
+            <Box direction='row' align='center'>
                 <Box gridArea='left' direction='row' align='center' justify='start' gap='medium'
                      margin={{left: 'small'}}>
                     <Box justify='end' direction='column'>
-                        <Anchor href='#' icon={<Map/>}
+                        <Anchor color='status-critical' href='#' icon={<Map/>}
                                 label={<Heading level='3' margin='none'>MapVirus</Heading>}/>
                         {props.size !== 'small' && (
                             <Text color='dark-5' margin='none'>
@@ -55,7 +46,7 @@ function AppBar(props) {
                         }}/>
                     </Box>
                 )}
-            </Grid>
+            </Box>
         </Box>
     );
 }
