@@ -34,21 +34,33 @@ function SearchBar(props) {
             minMatchCharLength: 2,
             keys: [
                 'country_name',
-                'regions.region_name'
+                'regions'
             ]
         };
         let fuse = new Fuse(props.countries, options); // "list" is the item array
         let result = fuse.search(value);
-        setOptions(result.flatMap(o => {
+        let maskedOptions = result.flatMap(o => {
             let result = [];
-            result.push(o.item.country_name);
-            if (o.regions) {
-                for (let region in o.regions) {
-                    result.push(region.region_name);
-                }
+            let regions = o.item.regions;
+            if (regions) {
+                let options = {
+                    shouldSort: true,
+                    threshold: 0.25,
+                    location: 0,
+                    distance: 20,
+                    minMatchCharLength: 2,
+                    keys: ['']
+                };
+                let regionFuse = new Fuse(regions, options);
+                let regionResult = regionFuse.search(value);
+                result.push(...regionResult.slice(0, 5).map(p => p.item + ", " + o.item.country_name))
+                // console.log(regionResult);
             }
+            result.push(o.item.country_name);
             return result;
-        }).slice(0, 5));
+        }).slice(0, 10);
+
+        setOptions(maskedOptions);
     }
 
     return (
@@ -71,7 +83,11 @@ function SearchBar(props) {
                 {/*<Button icon={<Location/>} label='Locate'/>*/}
                 <Button icon={<Search/>} label='View' onClick={() => {
                     if (value && value.trim() !== '') {
-                        if (Object.values(props.countries).filter((c) => c.country_name === value.trim()).length > 0) {
+                        if (Object.values(props.countries).flatMap(c => {
+                            let array = c.regions.map(r => r + ", " + c.country_name);
+                            array.push(c.country_name);
+                            return array;
+                        }).filter((c) => c === value.trim()).length > 0) {
                             history.push("/search/" + value.trim());
                         } else {
                             setError(true);

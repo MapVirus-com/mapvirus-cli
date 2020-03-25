@@ -38,7 +38,7 @@ export default function Prevention(props) {
                 <meta name="keywords"
                       content="covid-19, coronavirus, prevention, protection, corona, virus, map, tracking, statistics, trends, data, dashboard, information"/>
                 <meta name="description"
-                      content="Comprehensive information compiled from authoratative sources on how to protect yourself against Coronavirus."/>
+                      content="Comprehensive information compiled from authoritative sources on how to protect yourself against Coronavirus."/>
 
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content="https://mapvirus.com/prevention"/>

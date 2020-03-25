@@ -16,10 +16,10 @@ function SearchBarWrapper(props) {
             pad='xsmall'
             width='medium'>
             <Route exact path='/'>
-                <SearchBar countries={props.countries} setCountries={props.setCountries}/>
+                <SearchBar {...props}/>
             </Route>
             <Route path={`/search/:name`}>
-                <InfoBar countries={props.countries} mapSelection={props.mapSelection} setMapSelection={props.setMapSelection}/>
+                <InfoBar {...props}/>
             </Route>
         </Box>
     );

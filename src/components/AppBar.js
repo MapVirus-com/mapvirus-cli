@@ -35,7 +35,8 @@ function AppBar(props) {
                             </Text>
                         )}
                     </Box>
-                    <Nav>
+                    <Nav direction='row'>
+                        <Anchor label='Map' onClick={() => {history.push('/')}}/>
                         <Anchor label='Prevention' onClick={() => {history.push('/prevention')}}/>
                     </Nav>
                 </Box>

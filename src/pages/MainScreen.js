@@ -5,17 +5,39 @@ import CDCNotice from "../components/CDCNotice";
 import SearchBarWrapper from "../components/SearchBarWrapper";
 import MapWrapper from "../components/MapWrapper";
 import SidebarWrapper from "../components/SidebarWrapper";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import AppFooter from "../components/AppFooter";
 import {Helmet} from "react-helmet";
+import {fetchCountries} from "../components/Network";
 
 export default function MainScreen(props) {
 
     const [showSidebar, setShowSidebar] = useState(false);
     const [mapSelection, setMapSelection] = useState('');
     const [countries, setCountries] = useState([]);
+    const [subRegion1, setSubRegion1] = useState({});
+    const [fetchingRegion, setFetchingRegion] = useState(false);
 
     const size = props.size;
+
+    useEffect(() => {
+        fetchCountries({
+            setCountries: setCountries
+        });
+    }, []);
+
+    const allProps = {
+        showSidebar: showSidebar,
+        setShowSidebar: setShowSidebar,
+        mapSelection: mapSelection,
+        setMapSelection: setMapSelection,
+        countries: countries,
+        setCountries: setCountries,
+        subRegion1: subRegion1,
+        setSubRegion1: setSubRegion1,
+        fetchingRegion: fetchingRegion,
+        setFetchingRegion: setFetchingRegion
+    };
 
     return (
         <>
@@ -55,15 +77,9 @@ export default function MainScreen(props) {
 
             <Box wrap direction='row'
                  margin={{bottom: 'medium'}}>
-                <SearchBarWrapper size={size}
-                                  countries={countries} setCountries={setCountries}
-                                  mapSelection={mapSelection}
-                                  setMapSelection={setMapSelection}/>
-                <MapWrapper mapSelection={mapSelection} setMapSelection={setMapSelection}
-                            showSidebar={showSidebar} size={size}
-                            countries={countries} setCountries={setCountries}/>
-                <SidebarWrapper showSidebar={showSidebar} setShowSidebar={setShowSidebar}
-                                size={size}/>
+                <SearchBarWrapper size={size} {...allProps} />
+                <MapWrapper size={size} {...allProps}/>
+                <SidebarWrapper size={size} {...allProps}/>
             </Box>
 
             <AppFooter setOverlay={props.setOverlay}/>

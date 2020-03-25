@@ -16,9 +16,10 @@ function MapWrapper(props) {
         <Stack fill anchor='bottom-right'>
             <AppMap mapSelection={props.mapSelection} setMapSelection={props.setMapSelection}
                     setInfoBox={setInfoBox} size={props.size}
+                    setSubRegion1={props.setSubRegion1} subRegion1={props.subRegion1}
                     countries={props.countries} setCountries={props.setCountries}/>
 
-            {infoBox.length > 0 && (
+            {Object.keys(infoBox).length > 0 && (
                 <Box width={getOverlaySize(props.size)}
                      height={getOverlaySize(props.size)}
                      margin={getOverlaySize(props.size)}
