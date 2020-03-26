@@ -49,10 +49,10 @@ function DistributionTable(props) {
                                             <Heading margin='none' level={3} size="large"><Validate/>{value.recovered}</Heading>
                                         </>
                                     ) : (
-                                        <Heading margin='none' level={3} size="large"><FingerPrint/>{value.value}</Heading>
+                                        <Heading margin='none' level={3} size="large">{value.value}</Heading>
                                     )
                                 }
-                                <Heading margin='none' level={4} wordBreak='break-word'>{value.name}</Heading>
+                                <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
                             </>
                         )}
                     </Box>
