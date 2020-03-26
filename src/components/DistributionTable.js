@@ -52,7 +52,11 @@ function DistributionTable(props) {
                                         <Heading margin='none' level={3} size="large">{value.value}</Heading>
                                     )
                                 }
-                                <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
+                                {
+                                    (size !== 'large' && value.value > max / 4) && (
+                                        <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
+                                    )
+                                }
                             </>
                         )}
                     </Box>
