@@ -139,9 +139,9 @@ function RegionInfo(props) {
                 <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
                 <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
             </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Case Fatality Rate</Heading>
-                <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed).toFixed(2)} %</Heading>
+            <Box wrap direction='row' gap='xsmall' align='center' justify='start'>
+                <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Fatality Rate</Heading>
+                <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
             </Box>
             <ReactTooltip />
             <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>

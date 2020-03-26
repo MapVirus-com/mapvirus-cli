@@ -1,7 +1,6 @@
 import React from "react";
-import BarContainer from "./BarContainer";
 import {scaleSymlog} from "d3-scale";
-import {Box, Distribution, Heading, Text} from "grommet";
+import {Box, Distribution, Heading} from "grommet";
 import {Emergency, FingerPrint, Validate} from "grommet-icons";
 
 function DistributionTable(props) {
