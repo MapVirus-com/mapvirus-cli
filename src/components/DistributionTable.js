@@ -43,7 +43,7 @@ function DistributionTable(props) {
                         {value.value > max / 16 && (
                             <>
                                 {
-                                    value.value > max / 4 ? (
+                                    (size === 'large' && value.value > max / 4) ? (
                                         <>
                                             <Heading margin='none' level={3} size="large"><FingerPrint/>{value.value}</Heading>
                                             <Heading margin='none' level={3} size="large"><Emergency/>{value.deaths}</Heading>
