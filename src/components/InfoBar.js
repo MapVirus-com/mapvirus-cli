@@ -32,13 +32,13 @@ function InfoBar(props) {
             return <NoData {...props}/>
         } else {
             // countries data still loading
-            return <Text>Loading...</Text>
+            return <Loading/>
         }
     }
 
     if (d.zoom_available && Object.keys(props.subRegion1).length === 0) {
         // region data loading
-        return <Text>Loading...</Text>
+        return <Loading/>
     }
 
     if (d.zoom_available && Object.keys(props.subRegion1).length > 0) {
@@ -47,6 +47,14 @@ function InfoBar(props) {
         return <CountryInfo country={d} name={name} {...props}/>;
     }
 
+}
+
+function Loading(props) {
+    return (
+        <Box fill full align='center' justify='center'>
+            <Text>Loading...</Text>
+        </Box>
+    );
 }
 
 function NoData(props) {
@@ -140,10 +148,11 @@ function RegionInfo(props) {
                 <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
             </Box>
             <Box wrap direction='row' gap='xsmall' align='center' justify='start'>
-                <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Fatality Rate</Heading>
+                <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Fatality
+                Rate</Heading>
                 <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
             </Box>
-            <ReactTooltip />
+            <ReactTooltip/>
             <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
         </Box>
     );

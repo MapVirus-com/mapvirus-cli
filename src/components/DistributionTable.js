@@ -53,7 +53,7 @@ function DistributionTable(props) {
                                     )
                                 }
                                 {
-                                    (size !== 'small' && value.value > max / 4) && (
+                                    (size !== 'small' && value.value > max / 8) && (
                                         <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
                                     )
                                 }
