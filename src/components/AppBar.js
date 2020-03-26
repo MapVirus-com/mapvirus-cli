@@ -24,7 +24,7 @@ function AppBar(props) {
             round='small'
         >
             <Box direction='row' align='center'>
-                <Box gridArea='left' direction='row' align='center' justify='start' gap='medium'
+                <Box direction='row' align='center' justify='start' gap='medium'
                      margin={{left: 'small'}}>
                     <Box justify='end' direction='column'>
                         <Anchor color='status-critical' onClick={() => history.push('/')} icon={<Map/>}
@@ -38,10 +38,11 @@ function AppBar(props) {
                     <Nav direction='row'>
                         <Anchor label='Map' onClick={() => {history.push('/')}}/>
                         <Anchor label='Prevention' onClick={() => {history.push('/prevention')}}/>
+                        <Anchor label='About' onClick={() => {history.push('/about')}}/>
                     </Nav>
                 </Box>
                 {props.setShowSidebar && (
-                    <Box gridArea='right' align='end'>
+                    <Box align='end'>
                         <Button icon={<Analytics/>} onClick={() => {
                             props.setShowSidebar(!props.showSidebar)
                         }}/>

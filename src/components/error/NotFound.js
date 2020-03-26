@@ -1,8 +1,8 @@
 import React from "react";
 import {Box, Button, Heading, Text} from "grommet";
 import {useHistory} from 'react-router-dom';
-import CDCNotice from "./CDCNotice";
-import BarContainer from "./BarContainer";
+import CDCNotice from "../CDCNotice";
+import BarContainer from "../BarContainer";
 
 export default function NotFound(props) {
 

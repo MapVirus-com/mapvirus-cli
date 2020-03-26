@@ -187,9 +187,11 @@ function CountryComposableMap(props) {
 }
 
 function RegionGeography(props) {
+    const history = useHistory();
     const {geo, proj, region} = props;
-
     const {confirmed, deaths, recovered} = region ? region.stats : 0;
+    const country_name = props.subRegion1 ? props.subRegion1.country_name : null;
+    const {subregion1} = region ? region : null;
 
     return isBrowser ? (
         <Geography
@@ -211,6 +213,11 @@ function RegionGeography(props) {
                 hover: {
                     fill: Color(colorScale(confirmed)).darken(0.25).hex(),
                     outline: "none"
+                }
+            }}
+            onClick={() => {
+                if (subregion1) {
+                    history.push("/search/" + region.subregion1 + ", " + country_name);
                 }
             }}
         />) : (

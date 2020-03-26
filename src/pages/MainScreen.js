@@ -1,4 +1,4 @@
-import {Box} from "grommet";
+import {Box, Clock, Heading, Layer, Table, TableBody, TableCell, TableHeader, TableRow, Text} from "grommet";
 import AppBar from "../components/AppBar";
 import BarContainer from "../components/BarContainer";
 import CDCNotice from "../components/CDCNotice";
@@ -9,8 +9,16 @@ import React, {useEffect, useState} from "react";
 import AppFooter from "../components/AppFooter";
 import {Helmet} from "react-helmet";
 import {fetchCountries} from "../components/Network";
+import {useHistory} from "react-router-dom";
+import {API_ROOT} from "../components/Constants";
+import RegionTable from "../components/RegionTable";
+import DistributionTable from "../components/DistributionTable";
+import {Emergency, FingerPrint, Validate} from "grommet-icons";
 
 export default function MainScreen(props) {
+
+    const [loading, setLoading] = useState(true);
+    const [config, setConfig] = useState(true);
 
     const [showSidebar, setShowSidebar] = useState(false);
     const [mapSelection, setMapSelection] = useState('');
@@ -18,13 +26,34 @@ export default function MainScreen(props) {
     const [subRegion1, setSubRegion1] = useState({});
     const [fetchingRegion, setFetchingRegion] = useState(false);
 
+    const history = useHistory();
+
     const size = props.size;
 
     useEffect(() => {
+        fetch(API_ROOT + "/config", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then((json) => {
+                setConfig(json);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                window.location.href = '/503';
+            });
         fetchCountries({
             setCountries: setCountries
-        });
+        }).catch((error) => {
+            console.log(error);
+            history.push('/503');
+        })
     }, []);
+
 
     const allProps = {
         showSidebar: showSidebar,
@@ -36,10 +65,18 @@ export default function MainScreen(props) {
         subRegion1: subRegion1,
         setSubRegion1: setSubRegion1,
         fetchingRegion: fetchingRegion,
-        setFetchingRegion: setFetchingRegion
+        setFetchingRegion: setFetchingRegion,
+        config: config,
+        setConfig: setConfig
     };
 
-    return (
+    return loading ? (
+        <Layer full>
+            <Box full fill justify='center' align='center'>
+                <Text>Loading...</Text>
+            </Box>
+        </Layer>
+    ) : (
         <>
             <Helmet>
                 <title>MapVirus - A Coronavirus Tracker</title>
@@ -66,14 +103,26 @@ export default function MainScreen(props) {
                 <CDCNotice/>
             </BarContainer>
 
-            {/*<BarContainer wrap*/}
-            {/*              background='dark-3'*/}
-            {/*              margin={{bottom: 'medium'}}>*/}
-            {/*    <Clock type="digital"/>*/}
-            {/*    <Text>Confirmed</Text>*/}
-            {/*    <Text>Death</Text>*/}
-            {/*    <Text>Recovered</Text>*/}
-            {/*</BarContainer>*/}
+            <BarContainer wrap
+                          background='dark-3'
+                          margin={{bottom: 'medium'}}>
+                <Heading level={4} margin='none'>Global Statistics</Heading>
+                <Clock type="digital"/>
+                <Box wrap>
+                    <Box direction='row' align='center' gap='small'>
+                        <FingerPrint/>
+                        <Text>{config.global_stats.confirmed} Confirmed</Text>
+                    </Box>
+                    <Box direction='row' align='center' gap='small'>
+                        <Emergency/>
+                        <Text>{config.global_stats.deaths} Deaths</Text>
+                    </Box>
+                    <Box direction='row' align='center' gap='small'>
+                        <Validate/>
+                        <Text>{config.global_stats.recovered} Recovered</Text>
+                    </Box>
+                </Box>
+            </BarContainer>
 
             <Box wrap direction='row'
                  margin={{bottom: 'medium'}}>
@@ -81,6 +130,13 @@ export default function MainScreen(props) {
                 <MapWrapper size={size} {...allProps}/>
                 <SidebarWrapper size={size} {...allProps}/>
             </Box>
+
+            {Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200 && (
+                <Box direction='row' alignContent='stretch' justify='between' gap='medium' wrap={size === 'small'}>
+                    <RegionTable subRegion1={subRegion1} size={size}/>
+                    <DistributionTable subRegion1={subRegion1} size={size}/>
+                </Box>
+            )}
 
             <AppFooter setOverlay={props.setOverlay}/>
             {props.overlay}

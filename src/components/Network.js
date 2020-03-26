@@ -1,7 +1,8 @@
 import {API_ROOT} from "./Constants";
+import {useHistory} from "react-router-dom";
 
 export function fetchRegions(props, search) {
-    fetch(API_ROOT + "/regions?search=" + search, {
+    return fetch(API_ROOT + "/regions?search=" + search, {
         method: "GET",
         headers: {
             "Accept": "application/json"
@@ -11,14 +12,11 @@ export function fetchRegions(props, search) {
         .then((json) => {
             props.setSubRegion1(json);
             props.setFetchingRegion(false);
-        }, (error) => {
-            console.log(error);
-            props.setFetchingRegion(false);
-        })
+        });
 }
 
 export function fetchCountries(props) {
-    fetch(API_ROOT + "/countries", {
+    return fetch(API_ROOT + "/countries", {
         method: "GET",
         headers: {
             "Accept": "application/json"
@@ -27,7 +25,5 @@ export function fetchCountries(props) {
         .then(res => res.json())
         .then((json) => {
             props.setCountries(json.countries);
-        }, (error) => {
-            console.log(error);
         });
 }

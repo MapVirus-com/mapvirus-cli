@@ -8,6 +8,6 @@ export default (
             <Route path=':name'/>
         </Route>
         <Route path='/prevention' />
-        <Route path='*'/>
+        <Route path='/about' />
     </Route>
 );

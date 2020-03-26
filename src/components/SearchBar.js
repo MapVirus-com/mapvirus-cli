@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {Anchor, Box, Button, Heading, MaskedInput, Text} from "grommet";
-import {MapLocation, Search} from "grommet-icons";
+import {Location, LocationPin, MapLocation, Search, Waypoint} from "grommet-icons";
 import * as Fuse from "fuse.js";
 import {useHistory} from "react-router-dom";
 import ReactGA from 'react-ga';
+import {PulseLoader} from "react-spinners";
+import {API_ROOT} from "./Constants";
 
 function SearchBar(props) {
     const [value, setValue] = useState("");
     const [options, setOptions] = useState([]);
     const [error, setError] = useState(false);
+    const [locationLoading, setLocationLoading] = useState(false);
+    const [geolocationRegions, setGeolocationRegions] = useState([]);
     const history = useHistory();
 
     if (process.env.REACT_APP_GA_TRACKING_ID) {
@@ -63,10 +67,39 @@ function SearchBar(props) {
         setOptions(maskedOptions);
     }
 
+    function requestGeoLocation() {
+        setLocationLoading(true);
+        navigator.geolocation.getCurrentPosition((position) => {
+            console.log(position.coords);
+            return fetch(API_ROOT + "/geolocation", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+            })
+                .then(res => res.json())
+                .then((json) => {
+                    setGeolocationRegions(json.regions);
+                    setLocationLoading(false);
+                }).catch((error) => {
+                    setLocationLoading(false);
+                })
+        }, (error) => {
+            setLocationLoading(false);
+            console.log(error);
+        });
+    }
+
     return (
         <Box fill='horizontal' justify='end' pad='small' gap='medium'>
-            <Anchor label={<Heading margin='none' level='3'>Search</Heading>} icon={<MapLocation/>} onClick={() => history.push('/')}/>
-            <Box gap='small'>
+            <Anchor label={<Heading margin='none' level='3'>Search</Heading>} icon={<MapLocation/>}
+                    onClick={() => history.push('/')}/>
+            <Box>
                 <MaskedInput
                     mask={[
                         {
@@ -77,11 +110,13 @@ function SearchBar(props) {
                     ]}
                     value={value}
                     onChange={event => setValue(event.target.value)}/>
-                <Text weight='bold' color='status-error' style={{ display: error ? 'inherit' : 'none' }}>Country / Region does not exist.</Text>
+                <Text weight='bold' color='status-error' style={{display: error ? 'inherit' : 'none'}}>Country / Region
+                    does not exist.</Text>
             </Box>
             <Box wrap direction='row' align='center' justify='between'>
-                {/*<Button icon={<Location/>} label='Locate'/>*/}
-                <Button icon={<Search/>} label='View' onClick={() => {
+                <Button margin={{vertical: 'small'}} icon={<Location/>} label={locationLoading ? <PulseLoader size='10px'/> : 'Use My Location'}
+                        disabled={locationLoading} onClick={() => requestGeoLocation()}/>
+                <Button margin={{vertical: 'small'}} icon={<Search/>} label='View' onClick={() => {
                     if (value && value.trim() !== '') {
                         if (Object.values(props.countries).flatMap(c => {
                             let array = c.regions.map(r => r + ", " + c.country_name);
@@ -95,6 +130,45 @@ function SearchBar(props) {
                     }
                 }} primary/>
             </Box>
+            {
+                geolocationRegions.length > 0 && (
+                    <Box wrap direction='row' align='center' justify='between'>
+                        {
+                            geolocationRegions.map((region) => (
+                                <Button margin={{vertical: 'small'}} icon={<Waypoint/>} label={region.display_name} onClick={() => {
+                                    if (region.subregion2) {
+                                        history.push("/search/" + region.subregion2 + ", " + region.subregion1 + ", " + region.country_name);
+                                    } else if (region.subregion1) {
+                                        history.push("/search/" + region.subregion1 + ", " + region.country_name);
+                                    } else {
+                                        history.push("/search/" + region.country_name);
+                                    }
+                                }}/>
+                            ))
+                        }
+                    </Box>
+                )
+            }
+            {
+                props.config && props.config.suggested_regions && (
+                    <Box wrap direction='row' align='center' justify='between'>
+                        <Heading level={3}>Based on your IP address:</Heading>
+                        {
+                            props.config.suggested_regions.map((region) => (
+                                <Button margin={{vertical: 'small'}} icon={<LocationPin/>} label={region.display_name} onClick={() => {
+                                    if (region.subregion2) {
+                                        history.push("/search/" + region.subregion2 + ", " + region.subregion1 + ", " + region.country_name);
+                                    } else if (region.subregion1) {
+                                        history.push("/search/" + region.subregion1 + ", " + region.country_name);
+                                    } else {
+                                        history.push("/search/" + region.country_name);
+                                    }
+                                }}/>
+                            ))
+                        }
+                    </Box>
+                )
+            }
         </Box>
     );
 }
