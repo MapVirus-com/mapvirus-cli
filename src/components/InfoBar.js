@@ -187,7 +187,7 @@ function CountryInfo(props) {
             </Box>
             <Box direction='row' gap='xsmall' align='center' justify='start'>
                 <Optimize color='brand'/> <Heading level='3' margin='none'>Case Fatality Rate</Heading>
-                <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed).toFixed(2)} %</Heading>
+                <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
             </Box>
             <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
         </Box>
