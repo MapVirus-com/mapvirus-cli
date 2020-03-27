@@ -6,7 +6,7 @@ function RegionTable(props) {
 
     const {size, subRegion1} = props;
 
-    if (!props.mapSelection || !(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
+    if (!(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
         return <></>
     }
 
