@@ -3,15 +3,9 @@ import {Helmet} from "react-helmet";
 import CDCNotice from "../components/CDCNotice";
 import BarContainer from "../components/BarContainer";
 import AppBar from "../components/AppBar";
-import {Anchor, Box, Heading, Image, Text} from "grommet";
+import {Anchor, Box, Heading, Text} from "grommet";
 import AppFooter from "../components/AppFooter";
 import {Gremlin, Halt, StatusInfo} from "grommet-icons";
-
-import WashingHands from '../images/washing_hands.svg';
-import Fever from '../images/fever.svg';
-import Cough from '../images/virus_transmission.svg';
-import Crowd from '../images/crowd.svg';
-import Warning from '../images/virus_warning.svg';
 
 export default function Prevention(props) {
 

@@ -1,4 +1,4 @@
-import {Box, Clock, Heading, Layer, Table, TableBody, TableCell, TableHeader, TableRow, Text} from "grommet";
+import {Box, Clock, Heading, Layer, Text} from "grommet";
 import AppBar from "../components/AppBar";
 import BarContainer from "../components/BarContainer";
 import CDCNotice from "../components/CDCNotice";
@@ -9,7 +9,7 @@ import React, {useEffect, useState} from "react";
 import AppFooter from "../components/AppFooter";
 import {Helmet} from "react-helmet";
 import {fetchCountries} from "../components/Network";
-import {useLocation, useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {API_ROOT} from "../components/Constants";
 import RegionTable from "../components/RegionTable";
 import DistributionTable from "../components/DistributionTable";

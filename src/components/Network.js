@@ -1,5 +1,4 @@
 import {API_ROOT} from "./Constants";
-import {useHistory} from "react-router-dom";
 
 export function fetchRegions(props, search) {
     return fetch(API_ROOT + "/regions?search=" + search, {
