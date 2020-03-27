@@ -13,7 +13,7 @@ function MapWrapper(props) {
     const [fullscreen, setFullScreen] = useState(false);
 
     const Map = (
-        <Stack fill anchor='bottom-right'>
+        <Stack fill='horizontal' anchor='bottom-right'>
             <AppMap mapSelection={props.mapSelection} setMapSelection={props.setMapSelection}
                     setInfoBox={setInfoBox} size={props.size}
                     setSubRegion1={props.setSubRegion1} subRegion1={props.subRegion1}
