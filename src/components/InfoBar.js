@@ -51,7 +51,7 @@ function InfoBar(props) {
 
 function Loading(props) {
     return (
-        <Box fill full align='center' justify='center'>
+        <Box fill align='center' justify='center'>
             <Text>Loading...</Text>
         </Box>
     );

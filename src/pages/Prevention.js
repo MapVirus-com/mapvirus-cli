@@ -72,7 +72,7 @@ export default function Prevention(props) {
                 pad='medium'
             >
 
-                <Box fill>
+                <Box fill='horizontal'>
                     <Anchor label={<Heading margin='none' level='3'>Prevention</Heading>} icon={<Halt/>}
                             href='/prevention'/>
                 </Box>

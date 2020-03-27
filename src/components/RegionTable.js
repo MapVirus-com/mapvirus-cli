@@ -7,7 +7,7 @@ function RegionTable(props) {
     const {size, subRegion1} = props;
 
     return (
-        <BarContainer fill wrap
+        <BarContainer fill='horizontal' wrap
                       background='neutral-3'
                       margin={{bottom: 'medium'}}
                       style={{

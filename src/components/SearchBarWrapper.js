@@ -7,7 +7,7 @@ import InfoBar from "./InfoBar";
 function SearchBarWrapper(props) {
     return (
         <Box
-            fill={props.size !== 'large'}
+            fill={props.size === 'large' ? false : 'horizontal'}
             align='start'
             border={{size: 'medium', color: 'neutral-4', style: 'groove'}}
             elevation='small'

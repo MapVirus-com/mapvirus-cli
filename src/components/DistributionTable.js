@@ -28,7 +28,7 @@ function DistributionTable(props) {
     console.log(regions);
 
     return (
-        <Box fill wrap
+        <Box fill='horizontal' wrap
              margin={{bottom: 'medium'}}
              style={{
                  overflow: 'scroll'
