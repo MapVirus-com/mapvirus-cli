@@ -177,12 +177,13 @@ function RegionInfo(props) {
                     <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
                     <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
                 </Box>
-                <Box wrap direction='row' gap='xsmall' align='center' justify='start'>
-                    <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Fatality
-                    Rate</Heading>
-                    <Heading level='3' color='brand'
-                             margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
-                </Box>
+                {confirmed > 0 && (
+                    <Box direction='row' gap='xsmall' align='center' justify='start'>
+                        <Optimize color='brand'/> <Heading level='3' margin='none'>Case Fatality Rate</Heading>
+                        <Heading level='3' color='brand'
+                                 margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
+                    </Box>
+                )}
                 <ReactTooltip/>
                 <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
             </Box>
@@ -206,7 +207,8 @@ function CountryInfo(props) {
 
     return (
         <>
-            <Meta keywords={country_name} displayName={country_name} lastUpdate={lastUpdate} confirmed={confirmed} deaths={deaths} recovered={recovered} {...props}/>
+            <Meta keywords={country_name} displayName={country_name} lastUpdate={lastUpdate} confirmed={confirmed}
+                  deaths={deaths} recovered={recovered} {...props}/>
             <Box fill='horizontal' justify='end' pad='small' gap='medium'>
                 <Box wrap direction='row' align='center' justify='between'>
                     <Anchor label={<Heading margin='none' level='3' onClick={() => {
@@ -230,11 +232,13 @@ function CountryInfo(props) {
                     <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
                     <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
                 </Box>
-                <Box direction='row' gap='xsmall' align='center' justify='start'>
-                    <Optimize color='brand'/> <Heading level='3' margin='none'>Case Fatality Rate</Heading>
-                    <Heading level='3' color='brand'
-                             margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
-                </Box>
+                {confirmed > 0 && (
+                    <Box direction='row' gap='xsmall' align='center' justify='start'>
+                        <Optimize color='brand'/> <Heading level='3' margin='none'>Case Fatality Rate</Heading>
+                        <Heading level='3' color='brand'
+                                 margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
+                    </Box>
+                )}
                 <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
             </Box>
         </>

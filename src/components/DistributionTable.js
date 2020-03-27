@@ -7,6 +7,10 @@ function DistributionTable(props) {
 
     const {size, subRegion1} = props;
 
+    if (!(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
+        return <></>
+    }
+
     let max = 0;
 
     let regions = subRegion1.regions.sort((a, b) => b.stats.confirmed - a.stats.confirmed).slice(1, 11).map(region => {

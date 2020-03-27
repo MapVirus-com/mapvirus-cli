@@ -6,6 +6,10 @@ function RegionTable(props) {
 
     const {size, subRegion1} = props;
 
+    if (!(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
+        return <></>
+    }
+
     return (
         <BarContainer fill='horizontal' wrap
                       background='neutral-3'

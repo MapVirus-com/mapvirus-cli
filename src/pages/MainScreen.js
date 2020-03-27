@@ -131,12 +131,10 @@ export default function MainScreen(props) {
                 <SidebarWrapper size={size} {...allProps}/>
             </Box>
 
-            {Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200 && (
-                <Box direction='row' alignContent='stretch' justify='between' gap='medium' wrap={size === 'small'}>
-                    <RegionTable subRegion1={subRegion1} size={size}/>
-                    <DistributionTable subRegion1={subRegion1} size={size}/>
-                </Box>
-            )}
+            <Box direction='row' alignContent='stretch' justify='between' gap='medium' wrap={size === 'small'}>
+                <RegionTable subRegion1={subRegion1} size={size}/>
+                <DistributionTable subRegion1={subRegion1} size={size}/>
+            </Box>
 
             <AppFooter setOverlay={props.setOverlay}/>
             {props.overlay}
