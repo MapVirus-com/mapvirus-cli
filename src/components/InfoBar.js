@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
 import {Anchor, Box, Button, Heading, Text} from "grommet";
 import {Emergency, FingerPrint, LinkPrevious, Optimize, Validate} from "grommet-icons";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory, useParams, useLocation} from "react-router-dom";
 import {fetchRegions} from "./Network";
 import ReactTooltip from "react-tooltip";
+import {Helmet} from "react-helmet";
 
 function InfoBar(props) {
     const {name} = useParams();
@@ -90,6 +91,27 @@ function NoData(props) {
     )
 }
 
+function Meta(props) {
+    const location = useLocation();
+
+    return (
+        <Helmet>
+            <title>{props.displayName} - MapVirus - A Coronavirus Tracker</title>
+            <meta name="keywords"
+                  content={props.keywords + ", covid-19, coronavirus, corona, virus, map, tracking, statistics, trends, data, dashboard, information"}/>
+            <meta name="description"
+                  content={`Understand the development of Coronavirus (COVID-19) in ${props.displayName} through real-time maps and visualization. ${props.displayName} has ${props.confirmed} confirmed cases, ${props.deaths} deaths, and ${props.recovered} recovered as of ${props.lastUpdate}.`}/>
+
+            <meta property="og:type" content="website"/>
+            <meta property="og:url" content={"https://mapvirus.com" + location.pathname}/>
+            <meta name="og:title" property="og:title"
+                  content={props.displayName + " - MapVirus - A Coronavirus Tracker"}/>
+            <meta name="og:description" property="og:description"
+                  content={`Understand the development of Coronavirus (COVID-19) in ${props.displayName} through real-time maps and visualization. ${props.displayName} has ${props.confirmed} confirmed cases, ${props.deaths} deaths, and ${props.recovered} recovered as of ${props.lastUpdate}.`}/>
+        </Helmet>
+    );
+}
+
 function RegionInfo(props) {
     const history = useHistory();
 
@@ -110,51 +132,61 @@ function RegionInfo(props) {
     });
 
     let displayName = country_name;
+    let keywords = country_name;
 
     if (region) {
         if (region.subregion2) {
             displayName = region.region_name + ", " + region.subregion1;
+            keywords += ", " + region.region_name + ", " + region.subregion1
         } else {
             displayName = region.region_name + ", " + country_name;
+            keywords += ", " + region.region_name
         }
         confirmed = region.stats.confirmed;
         deaths = region.stats.deaths;
         recovered = region.stats.recovered;
     }
 
+    const lastUpdate = props.config.last_update_date;
+
     return (
-        <Box fill='horizontal' justify='end' pad='small' gap='medium'>
-            <Box wrap direction='row' align='center' justify='between'>
-                <Anchor label={<Heading margin='none' level='3' onClick={() => {
-                    props.setMapSelection(null);
-                    props.setSubRegion1({});
-                    history.push('/');
-                }}>Back</Heading>} icon={<LinkPrevious/>}/>
-                <Heading margin='none' level='3'>{displayName}</Heading>
+        <>
+            <Meta keywords={keywords} displayName={displayName} lastUpdate={lastUpdate} confirmed={confirmed}
+                  deaths={deaths} recovered={recovered} {...props}/>
+            <Box fill='horizontal' justify='end' pad='small' gap='medium'>
+                <Box wrap direction='row' align='center' justify='between'>
+                    <Anchor label={<Heading margin='none' level='3' onClick={() => {
+                        props.setMapSelection(null);
+                        props.setSubRegion1({});
+                        history.push('/');
+                    }}>Back</Heading>} icon={<LinkPrevious/>}/>
+                    <Heading margin='none' level='3'>{displayName}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <FingerPrint color='brand'/> <Heading level='3' margin='none'
+                                                          color='status-critical'>Confirmed</Heading> <Heading level='3'
+                                                                                                               color='brand'
+                                                                                                               margin='none'>{confirmed}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <Emergency color='brand'/> <Heading level='3' margin='none'>Deaths</Heading> <Heading level='3'
+                                                                                                          color='brand'
+                                                                                                          margin='none'>{deaths}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
+                    <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
+                </Box>
+                <Box wrap direction='row' gap='xsmall' align='center' justify='start'>
+                    <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Fatality
+                    Rate</Heading>
+                    <Heading level='3' color='brand'
+                             margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
+                </Box>
+                <ReactTooltip/>
+                <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
             </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <FingerPrint color='brand'/> <Heading level='3' margin='none'
-                                                      color='status-critical'>Confirmed</Heading> <Heading level='3'
-                                                                                                           color='brand'
-                                                                                                           margin='none'>{confirmed}</Heading>
-            </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <Emergency color='brand'/> <Heading level='3' margin='none'>Deaths</Heading> <Heading level='3'
-                                                                                                      color='brand'
-                                                                                                      margin='none'>{deaths}</Heading>
-            </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
-                <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
-            </Box>
-            <Box wrap direction='row' gap='xsmall' align='center' justify='start'>
-                <Optimize color='brand'/> <Heading level='3' data-tip='Deaths / Confirmed' margin='none'>Fatality
-                Rate</Heading>
-                <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
-            </Box>
-            <ReactTooltip/>
-            <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
-        </Box>
+        </>
     );
 }
 
@@ -170,36 +202,42 @@ function CountryInfo(props) {
         return (<></>);
     }
 
+    const lastUpdate = props.config.last_update_date;
+
     return (
-        <Box fill='horizontal' justify='end' pad='small' gap='medium'>
-            <Box wrap direction='row' align='center' justify='between'>
-                <Anchor label={<Heading margin='none' level='3' onClick={() => {
-                    props.setMapSelection(null);
-                    history.push('/');
-                }}>Back</Heading>} icon={<LinkPrevious/>}/>
-                <Heading margin='none' level='3'>{country_name}</Heading>
+        <>
+            <Meta keywords={country_name} displayName={country_name} lastUpdate={lastUpdate} confirmed={confirmed} deaths={deaths} recovered={recovered} {...props}/>
+            <Box fill='horizontal' justify='end' pad='small' gap='medium'>
+                <Box wrap direction='row' align='center' justify='between'>
+                    <Anchor label={<Heading margin='none' level='3' onClick={() => {
+                        props.setMapSelection(null);
+                        history.push('/');
+                    }}>Back</Heading>} icon={<LinkPrevious/>}/>
+                    <Heading margin='none' level='3'>{country_name}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <FingerPrint color='brand'/> <Heading level='3' margin='none'
+                                                          color='status-critical'>Confirmed</Heading> <Heading level='3'
+                                                                                                               color='brand'
+                                                                                                               margin='none'>{confirmed}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <Emergency color='brand'/> <Heading level='3' margin='none'>Deaths</Heading> <Heading level='3'
+                                                                                                          color='brand'
+                                                                                                          margin='none'>{deaths}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
+                    <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
+                </Box>
+                <Box direction='row' gap='xsmall' align='center' justify='start'>
+                    <Optimize color='brand'/> <Heading level='3' margin='none'>Case Fatality Rate</Heading>
+                    <Heading level='3' color='brand'
+                             margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
+                </Box>
+                <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
             </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <FingerPrint color='brand'/> <Heading level='3' margin='none'
-                                                      color='status-critical'>Confirmed</Heading> <Heading level='3'
-                                                                                                           color='brand'
-                                                                                                           margin='none'>{confirmed}</Heading>
-            </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <Emergency color='brand'/> <Heading level='3' margin='none'>Deaths</Heading> <Heading level='3'
-                                                                                                      color='brand'
-                                                                                                      margin='none'>{deaths}</Heading>
-            </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <Validate color='brand'/> <Heading level='3' margin='none' color='status-ok'>Recovered</Heading>
-                <Heading level='3' color='brand' margin='none'>{recovered}</Heading>
-            </Box>
-            <Box direction='row' gap='xsmall' align='center' justify='start'>
-                <Optimize color='brand'/> <Heading level='3' margin='none'>Case Fatality Rate</Heading>
-                <Heading level='3' color='brand' margin='none'>{Number(deaths / confirmed * 100).toFixed(2)} %</Heading>
-            </Box>
-            <Button label="Learn about Prevention" onClick={() => history.push('/prevention')}/>
-        </Box>
+        </>
     );
 }
 
