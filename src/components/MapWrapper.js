@@ -76,7 +76,6 @@ function MapWrapper(props) {
             <Layer full>
                 <Box
                     background='light-3'
-                    tag='header'
                     justify='end'
                     align='center'
                     direction='row'

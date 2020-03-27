@@ -7,7 +7,6 @@ function Disclaimer(props) {
         <Layer>
             <Box
                 background='light-3'
-                tag='header'
                 justify='end'
                 align='center'
                 direction='row'
