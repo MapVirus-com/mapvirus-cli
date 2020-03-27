@@ -17,7 +17,7 @@ function RegionTable(props) {
                       style={{
                           overflow: 'scroll'
                       }}
-                      height={{max: size}}>
+                      height={{min: "medium", max: "large"}}>
             <Table>
                 <TableHeader>
                     <TableRow>

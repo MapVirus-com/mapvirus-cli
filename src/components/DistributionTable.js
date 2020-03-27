@@ -1,6 +1,6 @@
 import React from "react";
 import {scaleSymlog} from "d3-scale";
-import {Box, Distribution, Heading} from "grommet";
+import {Box, Distribution, Heading, Text} from "grommet";
 import {Emergency, FingerPrint, Validate} from "grommet-icons";
 
 function DistributionTable(props) {
@@ -42,8 +42,9 @@ function DistributionTable(props) {
             <Distribution height={{min: size, max: size}} values={regions}>
                 {value => (
                     <Box pad='small' round='small' background={colorScale(value.value)} fill align='center'
-                         justify='center' gap='small'>
-                        {
+                         justify='center' gap='xxsmall'>
+                        {(
+                            size !== 'small' && value.value > max / 16) && (
                             (size === 'large' && value.value > max / 4) ? (
                                 <>
                                     <Heading margin='none' level={3} size="large"><FingerPrint/>{value.value}</Heading>
@@ -51,14 +52,12 @@ function DistributionTable(props) {
                                     <Heading margin='none' level={3} size="large"><Validate/>{value.recovered}</Heading>
                                 </>
                             ) : (
-                                <Heading margin='none' level={3} size="large">{value.value}</Heading>
-                            )
+                                <Text margin='none' weight='bold' size={size}>{value.value}</Text>
+                            ))
                         }
-                        {
-                            (size !== 'small' && value.value > max / 16) && (
-                                <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
-                            )
-                        }
+                        <Box>
+                            <Text truncate>{value.name}</Text>
+                        </Box>
                     </Box>
                 )}
             </Distribution>
