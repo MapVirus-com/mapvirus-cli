@@ -7,7 +7,7 @@ function DistributionTable(props) {
 
     const {size, subRegion1} = props;
 
-    if (!(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
+    if (!props.mapSelection || !(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
         return <></>
     }
 
@@ -32,12 +32,10 @@ function DistributionTable(props) {
     console.log(regions);
 
     return (
-        <Box fill='horizontal' wrap
+        <Box fill wrap
              margin={{bottom: 'medium'}}
-             style={{
-                 overflow: 'scroll'
-             }}
              round='small'
+             height={size}
              pad='none'>
             <Distribution height={{min: size, max: size}} values={regions}>
                 {value => (

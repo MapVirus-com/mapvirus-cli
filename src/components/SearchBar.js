@@ -97,7 +97,7 @@ function SearchBar(props) {
 
     return (
         <Box fill='horizontal' justify='end' pad='small' gap='medium'>
-            <Anchor label={<Heading margin='none' level='3'>Search</Heading>} icon={<MapLocation/>}
+            <Anchor label={<Heading margin='none' level='3'>View</Heading>} icon={<MapLocation/>}
                     onClick={() => history.push('/')}/>
             <Box>
                 <MaskedInput
@@ -114,7 +114,7 @@ function SearchBar(props) {
                     does not exist.</Text>
             </Box>
             <Box wrap direction='row' align='center' justify='between'>
-                <Button margin={{vertical: 'small'}} icon={<Location/>} label={locationLoading ? <PulseLoader size='10px'/> : 'Use My Location'}
+                <Button margin={{vertical: 'small'}} icon={<Location/>} label={locationLoading ? <PulseLoader size='10px'/> : 'Use GPS Location'}
                         disabled={locationLoading} onClick={() => requestGeoLocation()}/>
                 <Button margin={{vertical: 'small'}} icon={<Search/>} label='View' onClick={() => {
                     if (value && value.trim() !== '') {

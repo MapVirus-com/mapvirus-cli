@@ -54,18 +54,19 @@ function MapWrapper(props) {
 
     return !fullscreen ?
         (
-            <Box fill={props.size !== 'large'}
-                 flex={props.size === 'large'}
-                 align='center'
-                 justify='center'
-                 margin={props.showSidebar && props.size === 'large' ? {right: 'small'} : 'none'}
-                 round='small'
-                 border={{size: 'medium', color: 'brand', style: 'groove'}}
-                 elevation='small'
-                 width='xlarge'
+            <Box
+                fill='horizontal'
+                flex={props.size === 'large'}
+                align='center'
+                justify='center'
+                margin={props.showSidebar && props.size === 'large' ? {right: 'small'} : 'none'}
+                round='small'
+                border={{size: 'medium', color: 'brand', style: 'groove'}}
+                elevation='small'
+                width='xlarge'
             >
                 <Stack fill anchor='top-right'>
-                    { Map }
+                    {Map}
                     <Box margin='small' style={{display: props.size === 'small' ? 'inherit' : 'none'}}>
                         <Button label="Fullscreen" onClick={() => setFullScreen(true)}/>
                     </Box>
@@ -85,7 +86,7 @@ function MapWrapper(props) {
                         onClick={() => setFullScreen(false)}
                     />
                 </Box>
-                { Map }
+                {Map}
             </Layer>
         );
 }

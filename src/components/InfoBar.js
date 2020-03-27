@@ -136,7 +136,7 @@ function RegionInfo(props) {
 
     if (region) {
         if (region.subregion2) {
-            displayName = region.region_name + ", " + region.subregion1;
+            displayName = region.region_name + " County";
             keywords += ", " + region.region_name + ", " + region.subregion1
         } else {
             displayName = region.region_name + ", " + country_name;

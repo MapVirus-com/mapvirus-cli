@@ -1,4 +1,4 @@
-import {Table, TableBody, TableCell, TableHeader, TableRow} from "grommet";
+import {Table, TableBody, TableCell, TableHeader, TableRow, Text} from "grommet";
 import React from "react";
 import BarContainer from "./BarContainer";
 
@@ -6,7 +6,7 @@ function RegionTable(props) {
 
     const {size, subRegion1} = props;
 
-    if (!(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
+    if (!props.mapSelection || !(Object.keys(subRegion1).length > 0 && subRegion1.regions.length < 200)) {
         return <></>
     }
 
@@ -17,7 +17,8 @@ function RegionTable(props) {
                       style={{
                           overflow: 'scroll'
                       }}
-                      height={{min: "medium", max: "large"}}>
+                      align='start'
+                      height={size}>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -40,7 +41,11 @@ function RegionTable(props) {
                         subRegion1.regions.slice(0, 200).map((region) => (
                             <TableRow>
                                 <TableCell scope="row">
-                                    <strong>{region.region_name}</strong>
+                                    {
+                                        region.subregion2 ?
+                                            <Text>{region.region_name}</Text> :
+                                            <Text weight='bold' style={{ textDecorationLine: 'underline' }}>{region.region_name}</Text>
+                                    }
                                 </TableCell>
                                 <TableCell>{region.stats.confirmed}</TableCell>
                                 <TableCell>{region.stats.deaths}</TableCell>

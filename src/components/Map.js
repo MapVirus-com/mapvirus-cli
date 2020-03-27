@@ -213,6 +213,9 @@ function RegionGeography(props) {
                 hover: {
                     fill: Color(colorScale(confirmed)).darken(0.25).hex(),
                     outline: "none"
+                },
+                pressed: {
+                    outline: "none"
                 }
             }}
             onClick={() => {
