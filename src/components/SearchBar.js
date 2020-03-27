@@ -70,7 +70,6 @@ function SearchBar(props) {
     function requestGeoLocation() {
         setLocationLoading(true);
         navigator.geolocation.getCurrentPosition((position) => {
-            console.log(position.coords);
             return fetch(API_ROOT + "/geolocation", {
                 method: "POST",
                 headers: {

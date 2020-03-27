@@ -29,8 +29,6 @@ function DistributionTable(props) {
         .domain([0, max])
         .range(["#d8ffcc", "#ff5233"]);
 
-    console.log(regions);
-
     return (
         <Box fill wrap
              margin={{bottom: 'medium'}}
