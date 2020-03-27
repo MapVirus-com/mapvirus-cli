@@ -9,7 +9,7 @@ import React, {useEffect, useState} from "react";
 import AppFooter from "../components/AppFooter";
 import {Helmet} from "react-helmet";
 import {fetchCountries} from "../components/Network";
-import {useHistory} from "react-router-dom";
+import {useLocation, useHistory} from "react-router-dom";
 import {API_ROOT} from "../components/Constants";
 import RegionTable from "../components/RegionTable";
 import DistributionTable from "../components/DistributionTable";
@@ -27,8 +27,13 @@ export default function MainScreen(props) {
     const [fetchingRegion, setFetchingRegion] = useState(false);
 
     const history = useHistory();
-
+    const location = useLocation();
     const size = props.size;
+
+    if (location.pathname === '/' && (mapSelection || Object.keys(subRegion1).length > 0)) {
+        setMapSelection(null);
+        setSubRegion1({});
+    }
 
     useEffect(() => {
         fetch(API_ROOT + "/config", {
