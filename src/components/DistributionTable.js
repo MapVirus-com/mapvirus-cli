@@ -39,26 +39,22 @@ function DistributionTable(props) {
                 {value => (
                     <Box pad='small' round='small' background={colorScale(value.value)} fill align='center'
                          justify='center' gap='small'>
-                        {value.value > max / 16 && (
-                            <>
-                                {
-                                    (size === 'large' && value.value > max / 4) ? (
-                                        <>
-                                            <Heading margin='none' level={3} size="large"><FingerPrint/>{value.value}</Heading>
-                                            <Heading margin='none' level={3} size="large"><Emergency/>{value.deaths}</Heading>
-                                            <Heading margin='none' level={3} size="large"><Validate/>{value.recovered}</Heading>
-                                        </>
-                                    ) : (
-                                        <Heading margin='none' level={3} size="large">{value.value}</Heading>
-                                    )
-                                }
-                                {
-                                    (size !== 'small' && value.value > max / 8) && (
-                                        <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
-                                    )
-                                }
-                            </>
-                        )}
+                        {
+                            (size === 'large' && value.value > max / 4) ? (
+                                <>
+                                    <Heading margin='none' level={3} size="large"><FingerPrint/>{value.value}</Heading>
+                                    <Heading margin='none' level={3} size="large"><Emergency/>{value.deaths}</Heading>
+                                    <Heading margin='none' level={3} size="large"><Validate/>{value.recovered}</Heading>
+                                </>
+                            ) : (
+                                <Heading margin='none' level={3} size="large">{value.value}</Heading>
+                            )
+                        }
+                        {
+                            (size !== 'small' && value.value > max / 16) && (
+                                <Heading margin='none' level={4} wordBreak='break-word' truncate>{value.name}</Heading>
+                            )
+                        }
                     </Box>
                 )}
             </Distribution>
