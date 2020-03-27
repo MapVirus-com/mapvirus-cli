@@ -4,7 +4,6 @@ import React from "react";
 function BarContainer(props) {
     return (
         <Box
-            tag='header'
             direction='row'
             align='center'
             justify='between'
