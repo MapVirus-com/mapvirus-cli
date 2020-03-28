@@ -119,6 +119,7 @@ function CountryComposableMap(props) {
         let maxX = [];
         let minY = [];
         let maxY = [];
+        console.log("ok1");
         geography.forEach(geo => {
             const path = geoPath().projection(projection);
             const centroid = projection.invert(path.centroid(geo));
@@ -127,21 +128,34 @@ function CountryComposableMap(props) {
             minX.push(bounds[0][0]);
             maxY.push(bounds[1][1]);
             minY.push(bounds[0][1]);
-            centroids.push(centroid);
+            if (!isNaN(centroid[0]) && !isNaN(centroid[1])) {
+                centroids.push(centroid);
+            }
         });
-        let latitudes = centroids.map(r => r[1]);
-        let latitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
+        console.log("ok2");
 
-        let longitudes = centroids.map(r => r[0]);
+        let latitudes = centroids.map(r => isNaN(r[1]) ? 0 : r[1]);
+        let latitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
+        console.log(latitudes);
+
+        let longitudes = centroids.map(r => isNaN(r[0]) ? 0 : r[0]);
         let longitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
+
+        console.log(longitudes);
 
         const centroid = [longitude, latitude];
         setCenter(centroid);
 
+        console.log(centroid);
+
         let dx = Math.max(...maxX) - Math.min(...minX);
         let dy = Math.max(...maxY) - Math.min(...minY);
 
+        console.log("ok6");
+
         const zoom = 0.9 / Math.max(dx / 600, dy / 600);
+        console.log(zoom);
+
         setZoom(zoom);
     }
 
@@ -154,33 +168,33 @@ function CountryComposableMap(props) {
         }
     }, [geoG]);
 
+    const GeographiesMemo = memo((props) => <Geographies geography={geojsonUrl}>
+        {({geographies, proj}) => {
+            let geos = [];
+            const result = geographies.map(geo => {
+                const region = props.subRegion1.regions.find(r => r.id === geo.id);
+
+                if (!region) {
+                    return <></>
+                }
+
+                geos.push(geo);
+                return (
+                    <RegionGeography key={geo.rsmKey} geo={geo}
+                                     proj={proj} region={region} {...props}/>
+                );
+            });
+            if (!geoG) {
+                setGeoG(geos); // warning given
+            }
+            return result;
+        }}
+    </Geographies>);
+
     return (
         <ComposableMap data-tip="" data-html="true" projection={geoAlbersUsa()}>
             <ZoomableGroup zoom={zoom} center={center}>
-                <Geographies geography={geojsonUrl}>
-                    {({geographies, proj}) => {
-                        let geos = [];
-                        const result = geographies.map(geo => {
-                            const region = props.subRegion1.regions.find(r => r.id === geo.id);
-
-                            if (!region) {
-                                return null
-                            }
-
-                            if (!geoG) {
-                                geos.push(geo);
-                            }
-                            return (
-                                <RegionGeography key={geo.rsmKey} geo={geo}
-                                                 proj={proj} region={region} {...props}/>
-                            );
-                        });
-                        if (!geoG) {
-                            setGeoG(geos); // warning given
-                        }
-                        return result;
-                    }}
-                </Geographies>
+                <GeographiesMemo {...props}/>
             </ZoomableGroup>
         </ComposableMap>
     );
@@ -191,7 +205,7 @@ function RegionGeography(props) {
     const {geo, proj, region} = props;
     const {confirmed, deaths, recovered} = region ? region.stats : 0;
     const country_name = props.subRegion1 ? props.subRegion1.country_name : null;
-    const {subregion1} = region ? region : null;
+    const {subregion1, subregion2} = region ? region : null;
 
     return isBrowser ? (
         <Geography
@@ -219,7 +233,7 @@ function RegionGeography(props) {
                 }
             }}
             onClick={() => {
-                if (subregion1) {
+                if (subregion1 && !subregion2) {
                     history.push("/search/" + region.subregion1 + ", " + country_name);
                 }
             }}
