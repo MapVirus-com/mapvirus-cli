@@ -1,4 +1,4 @@
-import {Box, Clock, Heading, Layer, Text} from "grommet";
+import {Anchor, Box, Clock, Heading, Layer, Text} from "grommet";
 import AppBar from "../components/AppBar";
 import BarContainer from "../components/BarContainer";
 import CDCNotice from "../components/CDCNotice";
@@ -13,7 +13,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import {API_ROOT} from "../components/Constants";
 import RegionTable from "../components/RegionTable";
 import DistributionTable from "../components/DistributionTable";
-import {Emergency, FingerPrint, Validate} from "grommet-icons";
+import {Aid, Emergency, FingerPrint, Info, Validate} from "grommet-icons";
 
 export default function MainScreen(props) {
 
@@ -89,7 +89,7 @@ export default function MainScreen(props) {
                 <title>MapVirus - A Coronavirus Tracker</title>
 
                 <meta name="keywords"
-                      content="covid-19, coronavirus, corona, virus, map, tracking, statistics, trends, data, dashboard, information"/>
+                      content="covid-19, coronavirus map, corona, virus, tracking, trends, dashboard, statistics, information"/>
                 <meta name="description"
                       content="Tracking the Coronavirus Outbreak with Numbers: Realtime maps and information on the development of Novel Coronavirus (COVID-19)."/>
 
@@ -98,10 +98,26 @@ export default function MainScreen(props) {
                 <meta name="og:title" property="og:title"
                       content="MapVirus - Realtime Maps and Information on Coronavirus (COVID-19)"/>
                 <meta name="og:description" property="og:description"
-                      content="MapVirus is a tracker and dashboard for Coronavirus (COVID-19) with realtime maps and information compiled from authoritative sources."/>
+                      content="MapVirus is a tracker and dashboard for Coronavirus (COVID-19) with realtime maps and information compiled from reputable sources."/>
             </Helmet>
             <AppBar showSidebar={showSidebar} size={size}/>
             {/*<AppBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} size={size}/>*/}
+
+            {/*<BarContainer*/}
+            {/*    border={{*/}
+            {/*        size: 'medium',*/}
+            {/*        color: 'accent-1'*/}
+            {/*    }}*/}
+            {/*    margin={{bottom: 'medium'}}*/}
+            {/*    round='small'*/}
+            {/*>*/}
+            {/*    <Box fill wrap direction='row' justify='start' align='center' gap='small' margin='small'>*/}
+            {/*        <Info/>*/}
+            {/*        <Text>MapVirus is a tracker and dashboard for Coronavirus (COVID-19) with realtime maps and*/}
+            {/*            information compiled from reputable sources.</Text>*/}
+            {/*    </Box>*/}
+            {/*</BarContainer>*/}
+
             <BarContainer
                 background='status-critical'
                 margin={{bottom: 'medium'}}

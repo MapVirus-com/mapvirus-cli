@@ -101,7 +101,7 @@ function Meta(props) {
             <meta name="keywords"
                   content={props.keywords + ", covid-19, coronavirus, corona, virus, map, tracking, statistics, trends, data, dashboard, information"}/>
             <meta name="description"
-                  content={`Understand the development of Coronavirus (COVID-19) in ${props.displayName} through real-time maps and visualization. ${props.displayName} has ${props.confirmed} confirmed cases, ${props.deaths} deaths, and ${props.recovered} recovered as of ${props.lastUpdate}.`}/>
+                  content={`${props.displayName} has ${props.confirmed} confirmed cases, ${props.deaths} deaths, and ${props.recovered} recovered as of ${props.lastUpdate}. Understand the development of Coronavirus (COVID-19) in ${props.displayName} through real-time maps and visualization.`}/>
 
             <meta property="og:type" content="website"/>
             <meta property="og:url" content={"https://mapvirus.com" + location.pathname}/>
