@@ -39,7 +39,7 @@ function RegionTable(props) {
                 <TableBody>
                     {
                         subRegion1.regions.slice(0, 200).map((region) => (
-                            <TableRow>
+                            <TableRow key={region.region_name}>
                                 <TableCell scope="row">
                                     {
                                         region.subregion2 ?

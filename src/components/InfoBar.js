@@ -24,6 +24,7 @@ function InfoBar(props) {
                     })
             } else {
                 props.setSubRegion1({});
+                props.setFetchingRegion(false);
             }
         }
     }, [props.countries, name]);

@@ -1,7 +1,7 @@
 import AppMap from "./Map";
-import {Box, Button, Heading, Layer, Stack, Text} from "grommet";
+import {Anchor, Box, Button, Heading, Layer, Stack, Text} from "grommet";
 import React, {useState} from "react";
-import {FormClose} from "grommet-icons";
+import {Emergency, FingerPrint, FormClose, LinkPrevious, Validate} from "grommet-icons";
 
 function getOverlaySize(size) {
     return size === 'small' ? 'xsmall' : 'small';
@@ -13,11 +13,13 @@ function MapWrapper(props) {
     const [fullscreen, setFullScreen] = useState(false);
 
     const Map = (
-        <Stack fill='horizontal' anchor='bottom-right'>
+        <Stack anchor='bottom-right'>
             <AppMap mapSelection={props.mapSelection} setMapSelection={props.setMapSelection}
                     setInfoBox={setInfoBox} size={props.size}
                     setSubRegion1={props.setSubRegion1} subRegion1={props.subRegion1}
-                    countries={props.countries} setCountries={props.setCountries}/>
+                    countries={props.countries} setCountries={props.setCountries}
+                    fetchingRegion={props.fetchingRegion}
+            />
 
             {Object.keys(infoBox).length > 0 && (
                 <Box width={getOverlaySize(props.size)}
@@ -25,11 +27,10 @@ function MapWrapper(props) {
                      margin={getOverlaySize(props.size)}
                      pad={getOverlaySize(props.size)}
                      round={getOverlaySize(props.size)}
-                     background='light-5'
+                     background='transparent'
                      border={{
                          color: 'brand',
                          size: getOverlaySize(props.size),
-                         style: 'dashed'
                      }}
                      style={{
                          opacity: 0.5
@@ -40,12 +41,24 @@ function MapWrapper(props) {
                      overflow='hidden'
                      wrap
                 >
-                    <Heading truncate size={getOverlaySize(props.size)}
-                             level={getOverlaySize(props.size) === 'small' ? 4 : 5}
-                             margin='none'>{infoBox[0]}</Heading>
-                    <Text size={getOverlaySize(props.size)}>Confirmed {infoBox[1]}</Text>
-                    <Text size={getOverlaySize(props.size)}>Deaths {infoBox[2]}</Text>
-                    <Text size={getOverlaySize(props.size)}>Recovered {infoBox[3]}</Text>
+                    <Box wrap direction='row' align='center' justify='between'>
+                        <Text size={props.size === 'small' ? 'small' : props.size} weight='bold' truncate>{infoBox[0]}</Text>
+                    </Box>
+                    <Box direction='row' gap='xsmall' align='center' justify='start'>
+                        <FingerPrint size='small' color='brand'/>
+                        <Text size={props.size === 'small' ? 'xsmall' : props.size} weight='bold' margin='none' color='status-critical'>Confirmed</Text>
+                        <Text size={props.size === 'small' ? 'xsmall' : props.size} weight='bold' color='brand' margin='none'>{infoBox[1]}</Text>
+                    </Box>
+                    <Box direction='row' gap='xsmall' align='center' justify='start'>
+                        <Emergency size='small' color='brand'/>
+                        <Text size={props.size === 'small' ? 'xsmall' : props.size} weight='bold' margin='none'>Deaths</Text>
+                        <Text size={props.size === 'small' ? 'xsmall' : props.size} weight='bold' color='brand' margin='none'>{infoBox[2]}</Text>
+                    </Box>
+                    <Box direction='row' gap='xsmall' align='center' justify='start'>
+                        <Validate size='small' color='brand'/>
+                        <Text size={props.size === 'small' ? 'xsmall' : props.size} weight='bold' margin='none' color='status-ok'>Recovered</Text>
+                        <Text size={props.size === 'small' ? 'xsmall' : props.size} weight='bold' color='brand' margin='none'>{infoBox[3]}</Text>
+                    </Box>
                 </Box>
             )
             }

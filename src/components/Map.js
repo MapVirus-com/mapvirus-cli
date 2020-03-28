@@ -21,6 +21,7 @@ const colorScaleRegion = scaleSymlog()
     .range(["#ffedea", "#ff5233"]);
 
 function WorldComposableMap(props) {
+    console.log("RW");
     const history = useHistory();
 
     if (Object.keys(props.countries).length === 0) {
@@ -108,10 +109,19 @@ function WorldComposableMap(props) {
 }
 
 function CountryComposableMap(props) {
-    const geojsonUrl = props.subRegion1.geojson_url;
     console.log("Rendering...");
-
+    const geojsonUrl = props.subRegion1.geojson_url;
     const projection = geoAlbersUsa();
+
+    const [center, setCenter] = useState([-96, 38]);
+    const [zoom, setZoom] = useState(1);
+    const [geoG, setGeoG] = useState();
+
+    useEffect(() => {
+        if (geoG) {
+            calc(geoG);
+        }
+    }, [geoG]);
 
     function calc(geography) {
         let centroids = [];
@@ -119,7 +129,6 @@ function CountryComposableMap(props) {
         let maxX = [];
         let minY = [];
         let maxY = [];
-        console.log("ok1");
         geography.forEach(geo => {
             const path = geoPath().projection(projection);
             const centroid = projection.invert(path.centroid(geo));
@@ -132,50 +141,32 @@ function CountryComposableMap(props) {
                 centroids.push(centroid);
             }
         });
-        console.log("ok2");
 
         let latitudes = centroids.map(r => isNaN(r[1]) ? 0 : r[1]);
         let latitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-        console.log(latitudes);
 
         let longitudes = centroids.map(r => isNaN(r[0]) ? 0 : r[0]);
         let longitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
 
-        console.log(longitudes);
-
         const centroid = [longitude, latitude];
         setCenter(centroid);
-
-        console.log(centroid);
 
         let dx = Math.max(...maxX) - Math.min(...minX);
         let dy = Math.max(...maxY) - Math.min(...minY);
 
-        console.log("ok6");
-
         const zoom = 0.9 / Math.max(dx / 600, dy / 600);
-        console.log(zoom);
 
         setZoom(zoom);
     }
 
-    const [center, setCenter] = useState([-96, 38]);
-    const [zoom, setZoom] = useState(1);
-    const [geoG, setGeoG] = useState();
-    useEffect(() => {
-        if (geoG) {
-            calc(geoG);
-        }
-    }, [geoG]);
-
-    const GeographiesMemo = memo((props) => <Geographies geography={geojsonUrl}>
+    const GeographiesMemo = <Geographies geography={geojsonUrl}>
         {({geographies, proj}) => {
             let geos = [];
             const result = geographies.map(geo => {
                 const region = props.subRegion1.regions.find(r => r.id === geo.id);
 
                 if (!region) {
-                    return <></>
+                    return null
                 }
 
                 geos.push(geo);
@@ -189,12 +180,12 @@ function CountryComposableMap(props) {
             }
             return result;
         }}
-    </Geographies>);
+    </Geographies>;
 
     return (
         <ComposableMap data-tip="" data-html="true" projection={geoAlbersUsa()}>
             <ZoomableGroup zoom={zoom} center={center}>
-                <GeographiesMemo {...props}/>
+                { GeographiesMemo }
             </ZoomableGroup>
         </ComposableMap>
     );

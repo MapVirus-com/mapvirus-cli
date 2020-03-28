@@ -24,7 +24,7 @@ export default function MainScreen(props) {
     const [mapSelection, setMapSelection] = useState('');
     const [countries, setCountries] = useState([]);
     const [subRegion1, setSubRegion1] = useState({});
-    const [fetchingRegion, setFetchingRegion] = useState(false);
+    const [fetchingRegion, setFetchingRegion] = useState(true);
 
     const history = useHistory();
     const location = useLocation();
@@ -53,6 +53,8 @@ export default function MainScreen(props) {
             });
         fetchCountries({
             setCountries: setCountries
+        }).then(() => {
+            setFetchingRegion(false);
         }).catch((error) => {
             console.log(error);
             history.push('/503');
